@@ -1,102 +1,99 @@
 import React from 'react';
 import { 
-  LayoutDashboard, 
-  Send, 
+  TrendingUp, 
+  Building2, 
+  Church, 
+  DollarSign, 
   CreditCard, 
-  ArrowDownLeft, 
+  AlertTriangle, 
   Users, 
-  Receipt, 
-  Scale, 
-  History,
-  LogOut
+  FileText, 
+  LogOut 
 } from 'lucide-react';
 
-export type Level2Tab = 
+export type Level1Tab = 
   | 'overview' 
-  | 'disburse' 
-  | 'direct-l4' 
-  | 'l1-payments' 
-  | 'l3-team' 
-  | 'expenses' 
-  | 'reconciliation' 
+  | 'budgets' 
+  | 'multisource' 
+  | 'disbursements' 
+  | 'advances' 
+  | 'exceptions' 
+  | 'hierarchy' 
   | 'audit';
 
-interface Level2SidebarProps {
-  activeTab: Level2Tab;
-  onSelectTab: (tab: Level2Tab) => void;
-  pendingL1Count?: number;
-  ocrMismatchesCount?: number;
-  bankDifferencesCount?: number;
+interface Level1SidebarProps {
+  activeTab: Level1Tab;
+  onSelectTab: (tab: Level1Tab) => void;
+  outstandingAdvancesCount?: number;
+  activeExceptionsCount?: number;
   onLogout?: () => void;
 }
 
-export const Level2Sidebar: React.FC<Level2SidebarProps> = ({
+export const Level1Sidebar: React.FC<Level1SidebarProps> = ({
   activeTab,
   onSelectTab,
-  pendingL1Count = 0,
-  ocrMismatchesCount = 0,
-  bankDifferencesCount = 0,
+  outstandingAdvancesCount = 0,
+  activeExceptionsCount = 0,
   onLogout,
 }) => {
   const navItems = [
     {
       id: 'overview',
-      label: 'Overview & Sources',
-      icon: LayoutDashboard,
+      label: 'Executive Overview',
+      icon: TrendingUp,
       badge: null,
-      sublabel: 'Controlled Funds & Level 3 Status',
+      sublabel: 'Diocesan Financial Snapshot',
     },
     {
-      id: 'disburse',
-      label: 'Disburse to Level 3',
-      icon: Send,
+      id: 'budgets',
+      label: 'L2 Department Budgets',
+      icon: Building2,
       badge: null,
-      sublabel: 'Allocate Funding to Overseers',
+      sublabel: 'Control Funds & Allocations',
     },
     {
-      id: 'direct-l4',
-      label: 'Direct Level 4 Pay',
+      id: 'multisource',
+      label: 'Multi-Source Breakdown',
+      icon: Church,
+      badge: null,
+      sublabel: 'Level 3 Ledger Traceability',
+    },
+    {
+      id: 'disbursements',
+      label: 'Direct Executive Grants',
+      icon: DollarSign,
+      badge: null,
+      sublabel: 'Bishop Direct Grants',
+    },
+    {
+      id: 'advances',
+      label: 'Advances & Settlements',
       icon: CreditCard,
-      badge: null,
-      sublabel: 'Emergency / Direct Operational Grant',
-    },
-    {
-      id: 'l1-payments',
-      label: 'Level 1 Grants',
-      icon: ArrowDownLeft,
-      badge: pendingL1Count > 0 ? pendingL1Count : null,
+      badge: outstandingAdvancesCount > 0 ? `${outstandingAdvancesCount}` : null,
       badgeColor: 'bg-[#F59E0B] text-[#24152F]',
-      sublabel: 'Received from Synod & Trustees',
+      sublabel: 'Issued Staff Advances',
     },
     {
-      id: 'l3-team',
-      label: 'Level 3 Overseers',
+      id: 'exceptions',
+      label: 'Exceptions & Issues',
+      icon: AlertTriangle,
+      badge: activeExceptionsCount > 0 ? activeExceptionsCount : null,
+      badgeColor: 'bg-[#E11D48] text-white',
+      sublabel: 'Auditing Flagged Discrepancies',
+    },
+    {
+      id: 'hierarchy',
+      label: 'Diocesan Hierarchy',
       icon: Users,
       badge: null,
-      sublabel: 'Subordinate Overseers Managed',
-    },
-    {
-      id: 'expenses',
-      label: 'Directorate Expenses',
-      icon: Receipt,
-      badge: ocrMismatchesCount > 0 ? ocrMismatchesCount : null,
-      badgeColor: 'bg-[#E11D48] text-white',
-      sublabel: 'Central Direct Expenditure',
-    },
-    {
-      id: 'reconciliation',
-      label: 'Bank Reconciliation',
-      icon: Scale,
-      badge: bankDifferencesCount > 0 ? 'Diff' : null,
-      badgeColor: 'bg-[#F59E0B] text-[#24152F]',
-      sublabel: 'Level 2 Central Account Audit',
+      sublabel: 'Governance Architecture',
     },
     {
       id: 'audit',
-      label: 'Audit Log & Trace',
-      icon: History,
+      label: 'Compliance Audit Trail',
+      icon: FileText,
       badge: null,
-      sublabel: 'Complete Level 2 Transaction Log',
+      sublabel: 'Authoritative Log',
     },
   ];
 
@@ -109,7 +106,7 @@ export const Level2Sidebar: React.FC<Level2SidebarProps> = ({
             Navigation Menu
           </div>
           <div className="text-xs font-semibold text-[#F4E7B5] mt-0.5">
-            Level 2 Financial Directorate
+            Level 1 Executive Portal
           </div>
         </div>
 
@@ -121,8 +118,8 @@ export const Level2Sidebar: React.FC<Level2SidebarProps> = ({
             return (
               <button
                 key={item.id}
-                id={`l2-sidebar-nav-${item.id}`}
-                onClick={() => onSelectTab(item.id as Level2Tab)}
+                id={`l1-sidebar-nav-${item.id}`}
+                onClick={() => onSelectTab(item.id as Level1Tab)}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-150 text-left group cursor-pointer ${
                   isActive
                     ? 'bg-[#30203D] text-white border-l-4 border-[#D4AF37] shadow-xs'

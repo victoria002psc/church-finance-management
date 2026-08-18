@@ -1,102 +1,70 @@
 import React from 'react';
 import { 
-  LayoutDashboard, 
-  Send, 
-  CreditCard, 
-  ArrowDownLeft, 
   Users, 
+  Wallet, 
+  Send, 
   Receipt, 
-  Scale, 
-  History,
-  LogOut
+  Clock, 
+  Layers,
+  LogOut 
 } from 'lucide-react';
 
-export type Level2Tab = 
-  | 'overview' 
-  | 'disburse' 
-  | 'direct-l4' 
-  | 'l1-payments' 
-  | 'l3-team' 
+export type Level4Tab = 
+  | 'workspace' 
+  | 'requests' 
   | 'expenses' 
-  | 'reconciliation' 
-  | 'audit';
+  | 'timeline'
+  | 'sources';
 
-interface Level2SidebarProps {
-  activeTab: Level2Tab;
-  onSelectTab: (tab: Level2Tab) => void;
-  pendingL1Count?: number;
-  ocrMismatchesCount?: number;
-  bankDifferencesCount?: number;
+interface Level4SidebarProps {
+  activeTab: Level4Tab;
+  onSelectTab: (tab: Level4Tab) => void;
+  pendingRequestsCount?: number;
   onLogout?: () => void;
 }
 
-export const Level2Sidebar: React.FC<Level2SidebarProps> = ({
+export const Level4Sidebar: React.FC<Level4SidebarProps> = ({
   activeTab,
   onSelectTab,
-  pendingL1Count = 0,
-  ocrMismatchesCount = 0,
-  bankDifferencesCount = 0,
+  pendingRequestsCount = 0,
   onLogout,
 }) => {
   const navItems = [
     {
-      id: 'overview',
-      label: 'Overview & Sources',
-      icon: LayoutDashboard,
+      id: 'workspace',
+      label: 'Wallet & Workspace',
+      icon: Wallet,
       badge: null,
-      sublabel: 'Controlled Funds & Level 3 Status',
+      sublabel: 'Available Funds & Overview',
     },
     {
-      id: 'disburse',
-      label: 'Disburse to Level 3',
+      id: 'requests',
+      label: 'Request Money',
       icon: Send,
-      badge: null,
-      sublabel: 'Allocate Funding to Overseers',
-    },
-    {
-      id: 'direct-l4',
-      label: 'Direct Level 4 Pay',
-      icon: CreditCard,
-      badge: null,
-      sublabel: 'Emergency / Direct Operational Grant',
-    },
-    {
-      id: 'l1-payments',
-      label: 'Level 1 Grants',
-      icon: ArrowDownLeft,
-      badge: pendingL1Count > 0 ? pendingL1Count : null,
+      badge: pendingRequestsCount > 0 ? pendingRequestsCount : null,
       badgeColor: 'bg-[#F59E0B] text-[#24152F]',
-      sublabel: 'Received from Synod & Trustees',
-    },
-    {
-      id: 'l3-team',
-      label: 'Level 3 Overseers',
-      icon: Users,
-      badge: null,
-      sublabel: 'Subordinate Overseers Managed',
+      sublabel: 'Submit Funding Request to L3',
     },
     {
       id: 'expenses',
-      label: 'Directorate Expenses',
+      label: 'Record Expense',
       icon: Receipt,
-      badge: ocrMismatchesCount > 0 ? ocrMismatchesCount : null,
-      badgeColor: 'bg-[#E11D48] text-white',
-      sublabel: 'Central Direct Expenditure',
-    },
-    {
-      id: 'reconciliation',
-      label: 'Bank Reconciliation',
-      icon: Scale,
-      badge: bankDifferencesCount > 0 ? 'Diff' : null,
-      badgeColor: 'bg-[#F59E0B] text-[#24152F]',
-      sublabel: 'Level 2 Central Account Audit',
-    },
-    {
-      id: 'audit',
-      label: 'Audit Log & Trace',
-      icon: History,
       badge: null,
-      sublabel: 'Complete Level 2 Transaction Log',
+      sublabel: 'Upload Voucher & Receipts',
+    },
+    {
+      id: 'timeline',
+      label: 'Money Status Timeline',
+      icon: Clock,
+      badge: null,
+      sublabel: 'Request & Disbursement Audit',
+    },
+    {
+      id: 'sources',
+      label: 'My Sources',
+      icon: Layers,
+      badge: null,
+      sublabel: 'Fund Provider Allocations',
     },
   ];
 
@@ -109,7 +77,7 @@ export const Level2Sidebar: React.FC<Level2SidebarProps> = ({
             Navigation Menu
           </div>
           <div className="text-xs font-semibold text-[#F4E7B5] mt-0.5">
-            Level 2 Financial Directorate
+            Level 4 Parish Operations
           </div>
         </div>
 
@@ -121,8 +89,8 @@ export const Level2Sidebar: React.FC<Level2SidebarProps> = ({
             return (
               <button
                 key={item.id}
-                id={`l2-sidebar-nav-${item.id}`}
-                onClick={() => onSelectTab(item.id as Level2Tab)}
+                id={`l4-sidebar-nav-${item.id}`}
+                onClick={() => onSelectTab(item.id as Level4Tab)}
                 className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-150 text-left group cursor-pointer ${
                   isActive
                     ? 'bg-[#30203D] text-white border-l-4 border-[#D4AF37] shadow-xs'

@@ -8,8 +8,6 @@ import {
   FileSpreadsheet, 
   History, 
   Scale,
-  Sparkles,
-  Network,
   LogOut
 } from 'lucide-react';
 
@@ -30,6 +28,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   unacknowledgedExpensesCount,
   ocrMismatchesCount,
   bankDifferencesCount,
+  onLogout,
 }) => {
   const navItems = [
     {
@@ -50,7 +49,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       label: 'Money Requests',
       icon: Inbox,
       badge: pendingRequestsCount > 0 ? pendingRequestsCount : null,
-      badgeColor: 'bg-amber-500 text-white',
+      badgeColor: 'bg-[#F59E0B] text-[#24152F]',
       sublabel: 'Approvals & Disbursements',
     },
     {
@@ -67,7 +66,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       badge: (unacknowledgedExpensesCount + ocrMismatchesCount) > 0 
         ? (unacknowledgedExpensesCount + ocrMismatchesCount) 
         : null,
-      badgeColor: ocrMismatchesCount > 0 ? 'bg-rose-500 text-white' : 'bg-amber-500 text-white',
+      badgeColor: ocrMismatchesCount > 0 ? 'bg-[#E11D48] text-white' : 'bg-[#F59E0B] text-[#24152F]',
       sublabel: 'Bills, Vouchers, OCR Discrepancies',
     },
     {
@@ -75,94 +74,91 @@ export const Sidebar: React.FC<SidebarProps> = ({
       label: 'Bank & Reconcile',
       icon: Scale,
       badge: bankDifferencesCount > 0 ? 'Diff' : null,
-      badgeColor: 'bg-amber-500 text-white',
+      badgeColor: 'bg-[#F59E0B] text-[#24152F]',
       sublabel: 'System vs Bank Statement',
     },
     {
-      id: 'reports',
-      label: 'Reports',
-      icon: FileSpreadsheet,
-      badge: null,
-      sublabel: 'Event, Category, Financial Year',
-    },
-    {
       id: 'audit',
-      label: 'Audit Trail',
+      label: 'Audit & Trace',
       icon: History,
       badge: null,
-      sublabel: 'Full Transaction Integrity',
+      sublabel: 'Complete Transaction History',
+    },
+    {
+      id: 'reports',
+      label: 'Export Reports',
+      icon: FileSpreadsheet,
+      badge: null,
+      sublabel: 'PDF & Excel Ledger Statement',
     },
   ];
 
   return (
-    <aside id="app-sidebar" className="w-64 bg-slate-900/95 text-slate-300 border-r border-slate-800 flex flex-col flex-shrink-0 min-h-[calc(100vh-65px)]">
-      {/* Navigation list */}
-      <div className="p-3 space-y-1 flex-1">
-        <div className="px-3 py-2 text-[10px] font-semibold text-slate-500 uppercase tracking-wider">
-          Church Operations
+    <aside className="w-64 bg-[#24152F] border-r border-[#30203D] min-h-[calc(100vh-61px)] py-6 flex flex-col justify-between shadow-lg flex-shrink-0">
+      <div className="space-y-6">
+        {/* Module Title */}
+        <div className="px-5">
+          <div className="text-[10px] uppercase font-bold tracking-wider text-[#F4E7B5]/60">
+            Navigation Menu
+          </div>
+          <div className="text-xs font-semibold text-[#F4E7B5] mt-0.5">
+            Level 3 Overseer Portal
+          </div>
         </div>
 
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = activeTab === item.id;
-          return (
-            <button
-              key={item.id}
-              id={`nav-item-${item.id}`}
-              onClick={() => onSelectTab(item.id)}
-              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-medium transition-all ${
-                isActive
-                  ? 'bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-sm font-semibold'
-                  : 'hover:bg-slate-800 hover:text-white text-slate-400'
-              }`}
-            >
-              <div className="flex items-center space-x-3 text-left truncate">
-                <Icon className={`w-4 h-4 flex-shrink-0 ${isActive ? 'text-white' : 'text-slate-400'}`} />
-                <div className="truncate">
-                  <div className="truncate">{item.label}</div>
-                  {item.sublabel && (
-                    <div className={`text-[10px] truncate ${isActive ? 'text-emerald-100' : 'text-slate-500'}`}>
-                      {item.sublabel}
-                    </div>
-                  )}
+        {/* Navigation Items */}
+        <nav className="space-y-1 px-3">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeTab === item.id;
+            return (
+              <button
+                key={item.id}
+                id={`sidebar-nav-${item.id}`}
+                onClick={() => onSelectTab(item.id)}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all duration-150 text-left group cursor-pointer ${
+                  isActive
+                    ? 'bg-[#30203D] text-white border-l-4 border-[#D4AF37] shadow-xs'
+                    : 'text-[#F4E7B5]/80 hover:bg-[#30203D]/50 hover:text-white'
+                }`}
+              >
+                <div className="flex items-center space-x-3 min-w-0">
+                  <Icon
+                    className={`w-4 h-4 flex-shrink-0 transition-colors ${
+                      isActive ? 'text-[#D4AF37]' : 'text-[#F4E7B5]/60 group-hover:text-[#D4AF37]'
+                    }`}
+                  />
+                  <div className="truncate">
+                    <div className="text-xs font-semibold leading-tight">{item.label}</div>
+                    {item.sublabel && (
+                      <div className="text-[10px] text-[#F4E7B5]/50 truncate mt-0.5">
+                        {item.sublabel}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
 
-              {item.badge && (
-                <span
-                  className={`ml-2 px-1.5 py-0.5 text-[10px] font-bold rounded-full flex-shrink-0 ${
-                    item.badgeColor || 'bg-slate-700 text-slate-200'
-                  }`}
-                >
-                  {item.badge}
-                </span>
-              )}
-            </button>
-          );
-        })}
+                {item.badge !== null && item.badge !== undefined && (
+                  <span
+                    className={`ml-2 px-1.5 py-0.5 rounded-full text-[10px] font-bold shadow-xs ${
+                      item.badgeColor || 'bg-[#D4AF37] text-[#24152F]'
+                    }`}
+                  >
+                    {item.badge}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </nav>
       </div>
 
-      {/* Governance & Rules Footer info */}
-      <div className="p-3 m-3 bg-slate-800/80 rounded-lg border border-slate-700/60 text-[11px] text-slate-400">
-        <div className="flex items-center space-x-1.5 text-amber-400 font-semibold mb-1">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Financial Governance</span>
-        </div>
-        <ul className="space-y-1 text-[10.5px] text-slate-400 list-disc list-inside">
-          <li>Multiple persons at each tier</li>
-          <li>Source allocations preserved</li>
-          <li>Approval ≠ Money Given</li>
-          <li>Audit logs strictly immutable</li>
-        </ul>
-      </div>
-
-      {/* Sign Out Button */}
+      {/* Logout button at bottom of sidebar if provided */}
       {onLogout && (
-        <div className="p-3 border-t border-slate-800 mt-auto">
+        <div className="px-4 pt-4 border-t border-[#30203D]">
           <button
-            id="sidebar-signout-btn"
             onClick={onLogout}
-            className="w-full flex items-center justify-center space-x-2 px-3 py-2 bg-rose-950/40 hover:bg-rose-900/60 border border-rose-800/60 text-rose-300 text-xs font-semibold rounded-lg transition-colors cursor-pointer"
+            className="w-full py-2.5 px-3 bg-[#E11D48]/20 hover:bg-[#E11D48]/30 border border-[#E11D48]/40 text-[#E11D48] rounded-xl text-xs font-bold transition-colors flex items-center justify-center space-x-2 cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
             <span>Sign Out</span>

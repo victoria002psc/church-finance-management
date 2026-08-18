@@ -50,8 +50,10 @@ import { Level2App } from './components/level2/Level2App.tsx';
 import { Level2Login } from './components/auth/Level2Login.tsx';
 import { Level3Login } from './components/auth/Level3Login.tsx';
 import { Level4Login } from './components/auth/Level4Login.tsx';
+import { Level4App } from './components/level4/Level4App.tsx';
 import { SignUpView } from './components/auth/SignUpView.tsx';
 import { PortalGateway } from './components/auth/PortalGateway.tsx';
+import { ErrorBoundary } from './components/common/ErrorBoundary.tsx';
 
 import { Loader2, AlertCircle, RefreshCw } from 'lucide-react';
 
@@ -64,7 +66,8 @@ export type AppRoute =
   | 'LEVEL_2_APP'
   | 'LEVEL_3_LOGIN'
   | 'LEVEL_3_APP'
-  | 'LEVEL_4_LOGIN';
+  | 'LEVEL_4_LOGIN'
+  | 'LEVEL_4_APP';
 
 function resolveInitialRoute(): AppRoute {
   if (typeof window === 'undefined') return 'GATEWAY';
@@ -73,6 +76,19 @@ function resolveInitialRoute(): AppRoute {
   if (path.includes('signup') || path.includes('register')) {
     return 'SIGNUP';
   }
+  if (path.includes('level-1/login')) {
+    return 'LEVEL_1_LOGIN';
+  }
+  if (path.includes('level-2/login')) {
+    return 'LEVEL_2_LOGIN';
+  }
+  if (path.includes('level-3/login')) {
+    return 'LEVEL_3_LOGIN';
+  }
+  if (path.includes('level-4/login')) {
+    return 'LEVEL_4_LOGIN';
+  }
+
   if (path.includes('level-1')) {
     const hasL1Session = !!localStorage.getItem('church_l1_session');
     return hasL1Session ? 'LEVEL_1_APP' : 'LEVEL_1_LOGIN';
@@ -86,10 +102,10 @@ function resolveInitialRoute(): AppRoute {
     return hasL3Session ? 'LEVEL_3_APP' : 'LEVEL_3_LOGIN';
   }
   if (path.includes('level-4')) {
-    return 'LEVEL_4_LOGIN';
+    const hasL4Session = !!localStorage.getItem('church_l4_session');
+    return hasL4Session ? 'LEVEL_4_APP' : 'LEVEL_4_LOGIN';
   }
 
-  // Root path ALWAYS loads the Portal Gateway (Image 2)
   return 'GATEWAY';
 }
 
@@ -203,8 +219,11 @@ export default function App() {
   // ==========================================
   // LEVEL 3 AUTH & HANDLERS
   // ==========================================
-  const handleL3LoginSuccess = async (user: User) => {
+  const handleL3LoginSuccess = async (user: User, state?: L3DashboardData) => {
     localStorage.setItem('church_l3_session', JSON.stringify(user));
+    if (state) {
+      setData(state);
+    }
     setLoading(true);
     setError(null);
     setCurrentRoute('LEVEL_3_APP');
@@ -214,7 +233,7 @@ export default function App() {
       const res = await fetchL3DashboardState();
       setData(res);
     } catch (e: any) {
-      setError(e.message || 'Failed to load Level 3 Dashboard state');
+      console.warn('L3 state sync warning:', e);
     } finally {
       setLoading(false);
     }
@@ -228,39 +247,36 @@ export default function App() {
   };
 
   // ==========================================
+  // LEVEL 4 AUTH & HANDLERS
+  // ==========================================
+  const handleL4LoginSuccess = () => {
+    localStorage.setItem('church_l4_session', JSON.stringify({ loggedIn: true }));
+    setCurrentRoute('LEVEL_4_APP');
+    window.history.pushState({}, '', '/level-4/dashboard');
+  };
+
+  const handleL4Logout = () => {
+    localStorage.removeItem('church_l4_session');
+    setCurrentRoute('LEVEL_4_LOGIN');
+    window.history.pushState({}, '', '/level-4/login');
+  };
+
+  // ==========================================
   // GATEWAY & NAVIGATION
   // ==========================================
   const handleSelectGatewayL1 = () => {
-    const hasL1Session = !!localStorage.getItem('church_l1_session');
-    if (hasL1Session) {
-      setCurrentRoute('LEVEL_1_APP');
-      window.history.pushState({}, '', '/level-1/dashboard');
-    } else {
-      setCurrentRoute('LEVEL_1_LOGIN');
-      window.history.pushState({}, '', '/level-1/login');
-    }
+    setCurrentRoute('LEVEL_1_LOGIN');
+    window.history.pushState({}, '', '/level-1/login');
   };
 
   const handleSelectGatewayL2 = () => {
-    const hasL2Session = !!localStorage.getItem('church_l2_session');
-    if (hasL2Session) {
-      setCurrentRoute('LEVEL_2_APP');
-      window.history.pushState({}, '', '/level-2/dashboard');
-    } else {
-      setCurrentRoute('LEVEL_2_LOGIN');
-      window.history.pushState({}, '', '/level-2/login');
-    }
+    setCurrentRoute('LEVEL_2_LOGIN');
+    window.history.pushState({}, '', '/level-2/login');
   };
 
   const handleSelectGatewayL3 = () => {
-    const hasL3Session = !!localStorage.getItem('church_l3_session');
-    if (hasL3Session) {
-      setCurrentRoute('LEVEL_3_APP');
-      window.history.pushState({}, '', '/level-3/dashboard');
-    } else {
-      setCurrentRoute('LEVEL_3_LOGIN');
-      window.history.pushState({}, '', '/level-3/login');
-    }
+    setCurrentRoute('LEVEL_3_LOGIN');
+    window.history.pushState({}, '', '/level-3/login');
   };
 
   const handleSelectGatewayL4 = () => {
@@ -418,9 +434,9 @@ export default function App() {
     } else if (user.role === 'LEVEL_2') {
       handleL2LoginSuccess(user, state);
     } else if (user.role === 'LEVEL_3') {
-      handleL3LoginSuccess(user);
+      handleL3LoginSuccess(user, state);
     } else {
-      handleNavigateToLogin('LEVEL_4');
+      handleL4LoginSuccess();
     }
   };
 
@@ -442,9 +458,6 @@ export default function App() {
         onLoginSuccess={handleL1LoginSuccess}
         onNavigateGateway={handleNavigateGateway}
         onNavigateSignUp={handleNavigateSignUp}
-        onNavigateLevel2={() => handleNavigateToLogin('LEVEL_2')}
-        onNavigateLevel3={() => handleNavigateToLogin('LEVEL_3')}
-        onNavigateLevel4={() => handleNavigateToLogin('LEVEL_4')}
       />
     );
   }
@@ -462,11 +475,13 @@ export default function App() {
       createdAt: '2026-01-01',
     };
     return (
-      <Level1App
-        initialUser={activeUser}
-        initialData={l1InitialData}
-        onLogout={handleL1Logout}
-      />
+      <ErrorBoundary fallbackTitle="Level 1 Dashboard Exception">
+        <Level1App
+          initialUser={activeUser}
+          initialData={l1InitialData}
+          onLogout={handleL1Logout}
+        />
+      </ErrorBoundary>
     );
   }
 
@@ -477,16 +492,17 @@ export default function App() {
         onLoginSuccess={handleL2LoginSuccess}
         onNavigateGateway={handleNavigateGateway}
         onNavigateSignUp={handleNavigateSignUp}
-        onNavigateLevel1={() => handleNavigateToLogin('LEVEL_1')}
-        onNavigateLevel3={() => handleNavigateToLogin('LEVEL_3')}
-        onNavigateLevel4={() => handleNavigateToLogin('LEVEL_4')}
       />
     );
   }
 
   // 6. LEVEL 2 APPLICATION
   if (currentRoute === 'LEVEL_2_APP') {
-    return <Level2App initialData={l2InitialData} onLogout={handleL2Logout} />;
+    return (
+      <ErrorBoundary fallbackTitle="Level 2 Dashboard Exception">
+        <Level2App initialData={l2InitialData} onLogout={handleL2Logout} />
+      </ErrorBoundary>
+    );
   }
 
   // 7. LEVEL 3 LOGIN
@@ -496,9 +512,6 @@ export default function App() {
         onLoginSuccess={handleL3LoginSuccess}
         onNavigateGateway={handleNavigateGateway}
         onNavigateSignUp={handleNavigateSignUp}
-        onNavigateLevel1={() => handleNavigateToLogin('LEVEL_1')}
-        onNavigateLevel2={() => handleNavigateToLogin('LEVEL_2')}
-        onNavigateLevel4={() => handleNavigateToLogin('LEVEL_4')}
       />
     );
   }
@@ -507,12 +520,19 @@ export default function App() {
   if (currentRoute === 'LEVEL_4_LOGIN') {
     return (
       <Level4Login
+        onLoginSuccess={handleL4LoginSuccess}
         onNavigateGateway={handleNavigateGateway}
         onNavigateSignUp={handleNavigateSignUp}
-        onNavigateLevel1={() => handleNavigateToLogin('LEVEL_1')}
-        onNavigateLevel2={() => handleNavigateToLogin('LEVEL_2')}
-        onNavigateLevel3={() => handleNavigateToLogin('LEVEL_3')}
       />
+    );
+  }
+
+  // 9. LEVEL 4 APPLICATION
+  if (currentRoute === 'LEVEL_4_APP') {
+    return (
+      <ErrorBoundary fallbackTitle="Level 4 Workspace Exception">
+        <Level4App onLogout={handleL4Logout} />
+      </ErrorBoundary>
     );
   }
 
@@ -560,11 +580,13 @@ export default function App() {
     );
   }
 
-  const moneyGivenList = data.recentMoneyMovements.filter((m) => 'giverL3Id' in m) as MoneyGiven[];
-  const moneyReceivedList = data.recentMoneyMovements.filter((m) => 'fromL2Id' in m) as MoneyReceived[];
+  const movements = data?.recentMoneyMovements || [];
+  const moneyGivenList = movements.filter((m) => 'giverL3Id' in m) as MoneyGiven[];
+  const moneyReceivedList = movements.filter((m) => 'fromL2Id' in m) as MoneyReceived[];
 
   return (
-    <div id="l3-app-root" className="min-h-screen bg-stone-100/90 text-stone-900 flex flex-col font-sans">
+    <ErrorBoundary fallbackTitle="Level 3 Dashboard Exception">
+      <div id="l3-app-root" className="min-h-screen bg-[#F7F5F0] text-[#171717] flex flex-col font-sans">
       {/* Level 3 Header with explicit Logout */}
       <Header
         user={data.currentL3User}
@@ -579,7 +601,7 @@ export default function App() {
       />
 
       {/* Main Workspace with Sidebar */}
-      <div className="flex-1 flex max-w-7xl w-full mx-auto pb-20 md:pb-8">
+      <div className="flex-1 flex w-full overflow-hidden">
         {/* Desktop / Tablet Sidebar */}
         <div className="hidden md:block">
           <Sidebar
@@ -589,7 +611,7 @@ export default function App() {
             unacknowledgedExpensesCount={data.unacknowledgedExpensesCount}
             ocrMismatchesCount={data.ocrMismatchesCount}
             bankDifferencesCount={data.bankDifferencesCount}
-            onLogout={handleLogout}
+            onLogout={handleL3Logout}
           />
         </div>
 
@@ -726,5 +748,6 @@ export default function App() {
         onRecordMultiSource={handleRecordMultiSource}
       />
     </div>
+    </ErrorBoundary>
   );
 }

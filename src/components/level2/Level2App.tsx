@@ -155,7 +155,7 @@ export const Level2App: React.FC<Level2AppProps> = ({ initialData, onLogout }) =
   }
 
   return (
-    <div id="level2-app-container" className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div id="level2-app-container" className="min-h-screen bg-[#F7F5F0] text-[#171717] flex flex-col font-sans">
       
       {/* Level 2 Header */}
       <Level2Header
@@ -169,16 +169,17 @@ export const Level2App: React.FC<Level2AppProps> = ({ initialData, onLogout }) =
       />
 
       {/* Body: Sidebar + Active View */}
-      <div className="flex-1 flex overflow-hidden max-w-7xl w-full mx-auto">
+      <div className="flex-1 flex overflow-hidden w-full">
         <Level2Sidebar
           activeTab={activeTab}
           onSelectTab={setActiveTab}
           pendingL1Count={data.pendingL1AcknowledgementsCount}
           ocrMismatchesCount={data.ocrMismatchesCount}
           bankDifferencesCount={data.bankDifferencesCount}
+          onLogout={onLogout}
         />
 
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto bg-slate-950/60">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto bg-[#F7F5F0] min-w-0">
           {activeTab === 'overview' && (
             <Level2OverviewView
               data={data}

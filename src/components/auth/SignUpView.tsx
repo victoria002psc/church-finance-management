@@ -75,39 +75,44 @@ export const SignUpView: React.FC<SignUpViewProps> = ({
           onNavigateLogin(selectedRole);
         }
       } else {
-        setErrorMsg('Access request failed. Please verify your information.');
+        setErrorMsg('Registration failed. Please check your details.');
       }
     } catch (err: any) {
-      setErrorMsg(err.message || 'Unable to submit request. Please try again.');
+      setErrorMsg(err.message || 'Unable to register. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div id="signup-screen" className="min-h-screen bg-slate-50 text-slate-900 flex flex-col justify-between font-sans">
+    <div id="signup-screen" className="min-h-screen bg-[#F7F3EA] text-[#241B2F] flex flex-col justify-between font-sans">
       {/* Top Banner */}
-      <header className="border-b border-slate-200 bg-white px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-xs">
-        <div>
-          <span className="font-bold text-slate-900 text-base tracking-tight">Church Financial Management</span>
-          <span className="ml-2.5 px-2 py-0.5 text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200 rounded-full">
-            REQUEST ACCESS
-          </span>
+      <header className="border-b border-[#3A2B49] bg-[#21152F] px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-md">
+        <div className="flex items-center space-x-3">
+          <div className="w-8 h-8 rounded-lg bg-[#2B1B3D] border border-[#C9A227]/40 text-[#C9A227] flex items-center justify-center font-bold shadow-xs">
+            <ShieldCheck className="w-4 h-4 text-[#C9A227]" />
+          </div>
+          <div>
+            <span className="font-bold text-white text-base tracking-tight">Church Financial Management</span>
+            <span className="ml-2.5 px-2 py-0.5 text-[10px] font-bold bg-[#C9A227] text-[#21152F] rounded-full">
+              REGISTRATION
+            </span>
+          </div>
         </div>
 
         <div className="flex items-center space-x-4">
           <button
             id="signup-back-to-gateway-btn"
             onClick={onNavigateGateway}
-            className="text-xs text-slate-600 hover:text-slate-900 flex items-center space-x-1.5 transition-colors cursor-pointer font-medium"
+            className="text-xs text-[#D9D0E3] hover:text-white flex items-center space-x-1.5 transition-colors cursor-pointer font-medium"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Portal</span>
+            <span>Portals</span>
           </button>
           <button
             id="signup-to-login-link"
             onClick={() => onNavigateLogin(selectedRole)}
-            className="text-xs text-blue-600 hover:text-blue-700 font-semibold transition-colors cursor-pointer"
+            className="text-xs text-[#C9A227] hover:text-[#D8B44A] font-semibold transition-colors cursor-pointer"
           >
             Sign In &rarr;
           </button>
@@ -116,18 +121,18 @@ export const SignUpView: React.FC<SignUpViewProps> = ({
 
       {/* Main Form */}
       <main className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8">
-        <div className="w-full max-w-md bg-white border border-slate-200 rounded-3xl shadow-xl overflow-hidden">
+        <div className="w-full max-w-md bg-[#FFFDF8] border border-[#E5DED2] rounded-3xl shadow-xl overflow-hidden">
           
           {/* Header */}
-          <div className="p-6 bg-slate-50/70 border-b border-slate-200 text-center">
-            <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center mx-auto mb-3 shadow-xs">
-              <ShieldCheck className="w-6 h-6" />
+          <div className="p-6 bg-[#21152F] text-white text-center border-b border-[#3A2B49]">
+            <div className="w-12 h-12 rounded-2xl bg-[#2B1B3D] border border-[#C9A227]/40 text-[#C9A227] flex items-center justify-center mx-auto mb-3 shadow-xs">
+              <ShieldCheck className="w-6 h-6 text-[#C9A227]" />
             </div>
-            <h1 className="text-xl font-bold text-slate-900 tracking-tight">
-              Request Access
+            <h1 className="text-xl font-bold text-white tracking-tight">
+              Create Account
             </h1>
-            <p className="text-xs text-slate-500 mt-1 font-medium">
-              Submit your credentials to request portal access.
+            <p className="text-xs text-[#D9D0E3] mt-1 font-medium">
+              Enter your details to register and access your dashboard.
             </p>
           </div>
 
@@ -141,29 +146,29 @@ export const SignUpView: React.FC<SignUpViewProps> = ({
 
             {/* Access Type Selection */}
             <div>
-              <label htmlFor="signup-access-type" className="block text-xs font-semibold text-slate-700 mb-1.5">
-                Access Type
+              <label htmlFor="signup-access-type" className="block text-xs font-semibold text-[#241B2F] mb-1.5">
+                Account Level
               </label>
               <select
                 id="signup-access-type"
                 value={selectedRole}
                 onChange={(e) => setSelectedRole(e.target.value as RoleLevel)}
-                className="w-full px-3 py-2.5 bg-white border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-blue-600 transition-colors cursor-pointer font-medium"
+                className="w-full px-3 py-2.5 bg-[#FFFDF8] border border-[#E5DED2] rounded-xl text-xs text-[#241B2F] focus:outline-none focus:border-[#C9A227] transition-colors cursor-pointer font-medium"
               >
-                <option value="LEVEL_1">Level 1 Access</option>
-                <option value="LEVEL_2">Level 2 Access</option>
-                <option value="LEVEL_3">Level 3 Access</option>
-                <option value="LEVEL_4">Level 4 Access</option>
+                <option value="LEVEL_1">Level 1 (Executive Oversight)</option>
+                <option value="LEVEL_2">Level 2 (Financial Control)</option>
+                <option value="LEVEL_3">Level 3 (Department Management)</option>
+                <option value="LEVEL_4">Level 4 (Field Operations)</option>
               </select>
             </div>
 
             {/* Full Name */}
             <div>
-              <label htmlFor="signup-name-input" className="block text-xs font-semibold text-slate-700 mb-1.5">
+              <label htmlFor="signup-name-input" className="block text-xs font-semibold text-[#241B2F] mb-1.5">
                 Full Name
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#817684]">
                   <UserIcon className="w-4 h-4" />
                 </div>
                 <input
@@ -173,18 +178,18 @@ export const SignUpView: React.FC<SignUpViewProps> = ({
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Enter full name"
-                  className="w-full pl-9 pr-3 py-2 bg-white border border-slate-300 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors"
+                  className="w-full pl-9 pr-3 py-2 bg-[#FFFDF8] border border-[#E5DED2] rounded-xl text-xs text-[#241B2F] placeholder-[#817684] focus:outline-none focus:border-[#C9A227] transition-colors"
                 />
               </div>
             </div>
 
-            {/* Email Address */}
+            {/* Email */}
             <div>
-              <label htmlFor="signup-email-input" className="block text-xs font-semibold text-slate-700 mb-1.5">
+              <label htmlFor="signup-email-input" className="block text-xs font-semibold text-[#241B2F] mb-1.5">
                 Email Address
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#817684]">
                   <Mail className="w-4 h-4" />
                 </div>
                 <input
@@ -193,19 +198,19 @@ export const SignUpView: React.FC<SignUpViewProps> = ({
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@organization.org"
-                  className="w-full pl-9 pr-3 py-2 bg-white border border-slate-300 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors"
+                  placeholder="name@church.org"
+                  className="w-full pl-9 pr-3 py-2 bg-[#FFFDF8] border border-[#E5DED2] rounded-xl text-xs text-[#241B2F] placeholder-[#817684] focus:outline-none focus:border-[#C9A227] transition-colors"
                 />
               </div>
             </div>
 
-            {/* Phone Number */}
+            {/* Phone */}
             <div>
-              <label htmlFor="signup-phone-input" className="block text-xs font-semibold text-slate-700 mb-1.5">
+              <label htmlFor="signup-phone-input" className="block text-xs font-semibold text-[#241B2F] mb-1.5">
                 Phone Number
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#817684]">
                   <Phone className="w-4 h-4" />
                 </div>
                 <input
@@ -213,20 +218,20 @@ export const SignUpView: React.FC<SignUpViewProps> = ({
                   type="text"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+91 98450 00000"
-                  className="w-full pl-9 pr-3 py-2 bg-white border border-slate-300 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors"
+                  placeholder="+91 98400 00000"
+                  className="w-full pl-9 pr-3 py-2 bg-[#FFFDF8] border border-[#E5DED2] rounded-xl text-xs text-[#241B2F] placeholder-[#817684] focus:outline-none focus:border-[#C9A227] transition-colors"
                 />
               </div>
             </div>
 
-            {/* Password */}
-            <div className="grid grid-cols-2 gap-3">
+            {/* Passwords */}
+            <div className="grid grid-cols-2 gap-2">
               <div>
-                <label htmlFor="signup-password-input" className="block text-xs font-semibold text-slate-700 mb-1.5">
+                <label htmlFor="signup-password-input" className="block text-xs font-semibold text-[#241B2F] mb-1.5">
                   Password
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#817684]">
                     <Lock className="w-3.5 h-3.5" />
                   </div>
                   <input
@@ -235,18 +240,18 @@ export const SignUpView: React.FC<SignUpViewProps> = ({
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Password"
-                    className="w-full pl-8 pr-3 py-2 bg-white border border-slate-300 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors"
+                    placeholder="Min 4 chars"
+                    className="w-full pl-8 pr-3 py-2 bg-[#FFFDF8] border border-[#E5DED2] rounded-xl text-xs text-[#241B2F] placeholder-[#817684] focus:outline-none focus:border-[#C9A227] transition-colors"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="signup-confirm-password-input" className="block text-xs font-semibold text-slate-700 mb-1.5">
+                <label htmlFor="signup-confirm-password-input" className="block text-xs font-semibold text-[#241B2F] mb-1.5">
                   Confirm Password
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#817684]">
                     <Lock className="w-3.5 h-3.5" />
                   </div>
                   <input
@@ -256,7 +261,7 @@ export const SignUpView: React.FC<SignUpViewProps> = ({
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Confirm"
-                    className="w-full pl-8 pr-3 py-2 bg-white border border-slate-300 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600 transition-colors"
+                    className="w-full pl-8 pr-3 py-2 bg-[#FFFDF8] border border-[#E5DED2] rounded-xl text-xs text-[#241B2F] placeholder-[#817684] focus:outline-none focus:border-[#C9A227] transition-colors"
                   />
                 </div>
               </div>
@@ -267,29 +272,29 @@ export const SignUpView: React.FC<SignUpViewProps> = ({
               id="signup-submit-btn"
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md flex items-center justify-center space-x-2 transition-all cursor-pointer disabled:opacity-50 mt-2"
+              className="w-full py-3 bg-[#21152F] hover:bg-[#2B1B3D] text-white font-bold text-xs rounded-xl shadow-md flex items-center justify-center space-x-2 transition-all cursor-pointer disabled:opacity-50 mt-2"
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Submitting Request...</span>
+                  <Loader2 className="w-4 h-4 animate-spin text-[#C9A227]" />
+                  <span>Registering Account...</span>
                 </>
               ) : (
                 <>
-                  <span>Submit Request</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span>Create Account & Sign In</span>
+                  <ArrowRight className="w-4 h-4 text-[#C9A227]" />
                 </>
               )}
             </button>
 
             {/* Already have an account */}
-            <div className="text-center text-xs text-slate-500 pt-2 font-medium">
-              Already have an authorized account?{' '}
+            <div className="text-center text-xs text-[#62586B] pt-2 border-t border-[#E5DED2] font-medium">
+              Already have an account?{' '}
               <button
                 type="button"
                 id="signup-switch-to-login-btn"
                 onClick={() => onNavigateLogin(selectedRole)}
-                className="text-blue-600 hover:text-blue-700 font-semibold underline underline-offset-2 cursor-pointer"
+                className="text-[#21152F] hover:text-[#C9A227] font-semibold underline underline-offset-2 cursor-pointer"
               >
                 Sign In
               </button>
@@ -300,8 +305,8 @@ export const SignUpView: React.FC<SignUpViewProps> = ({
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200 bg-white py-3.5 text-center text-xs text-slate-500 font-medium">
-        Secure Access &bull; Authorized Users Only
+      <footer className="border-t border-[#E5DED2] bg-[#FFFDF8] py-3.5 text-center text-xs text-[#62586B] font-medium">
+        Church Financial Management Platform &bull; Secure User Registration
       </footer>
     </div>
   );
