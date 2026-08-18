@@ -54,10 +54,10 @@ export const Level4Sidebar: React.FC<Level4SidebarProps> = ({
     },
     {
       id: 'timeline',
-      label: 'Money Status Timeline',
+      label: 'Money Status',
       icon: Clock,
       badge: null,
-      sublabel: 'Request & Disbursement Audit',
+      sublabel: 'Request & Expense Activity',
     },
     {
       id: 'sources',

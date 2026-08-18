@@ -18,9 +18,7 @@ import {
   ChevronRight,
   FileCheck,
   Layers,
-  Sparkles,
-  HelpCircle,
-  Info
+  Sparkles
 } from 'lucide-react';
 import { User, MoneyRequest, Expense } from '../../types.ts';
 import { DetailDrawer } from '../common/DetailDrawer.tsx';
@@ -232,7 +230,6 @@ export const Level4App: React.FC<Level4AppProps> = ({
   // Modals & Drawers
   const [showRequestModal, setShowRequestModal] = useState<boolean>(false);
   const [showExpenseModal, setShowExpenseModal] = useState<boolean>(false);
-  const [showAllocationPolicy, setShowAllocationPolicy] = useState<boolean>(false);
   const [selectedRequestDrawer, setSelectedRequestDrawer] = useState<MoneyRequest | null>(null);
 
   // Request Form States
@@ -416,7 +413,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
         {activeTab === 'workspace' && (
           <div className="space-y-4 animate-in fade-in duration-150">
             
-            {/* SECTION 1 — FINANCIAL SUMMARY METRICS (Compact Height) */}
+            {/* SECTION 1 — FINANCIAL SUMMARY METRICS */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
               <div className="bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl p-3.5 shadow-2xs flex flex-col justify-between">
                 <div className="flex items-center justify-between">
@@ -449,7 +446,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
               </div>
             </div>
 
-            {/* SECTION 2 — WORK & PROJECT ASSIGNMENTS (Ultra-Compact Operational Module) */}
+            {/* SECTION 2 — WORK & PROJECT ASSIGNMENTS (Simple Row List) */}
             <div className="bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl p-3.5 shadow-2xs space-y-2">
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-bold text-[#171717] uppercase tracking-wider flex items-center space-x-1.5">
@@ -463,23 +460,20 @@ export const Level4App: React.FC<Level4AppProps> = ({
 
               <div className="divide-y divide-[#E7E2D8] border border-[#E7E2D8] rounded-lg overflow-hidden bg-[#F7F5F0]">
                 {proactiveWorkAssignments.map((task) => (
-                  <div key={task.id} className="p-2.5 hover:bg-[#FFFDF8] transition-colors flex items-center justify-between gap-3">
+                  <div key={task.id} className="p-3 hover:bg-[#FFFDF8] transition-colors flex items-center justify-between gap-3">
                     <div className="min-w-0 flex-1">
                       <div className="font-bold text-xs text-[#171717] truncate">{task.taskTitle}</div>
-                      <div className="text-[10px] text-[#5F6368] truncate">
-                        {task.assignedByL3Name} &bull; {task.assignedDate}
-                      </div>
+                      <div className="text-[10px] text-[#5F6368] truncate">Assigned by {task.assignedByL3Name}</div>
                     </div>
 
                     <div className="flex items-center space-x-3 flex-shrink-0">
                       <span className="font-extrabold text-xs text-[#009E68] font-mono">
                         ₹{task.allocatedAmount.toLocaleString('en-IN')}
                       </span>
-                      <span className={`px-2 py-0.5 rounded text-[9px] font-bold flex items-center space-x-1 ${
-                        task.status === 'COMPLETED' ? 'bg-[#009E68]/10 text-[#009E68] border border-[#009E68]/30' : 'bg-[#2563EB]/10 text-[#2563EB] border border-[#2563EB]/30'
+                      <span className={`px-2 py-0.5 rounded text-[9px] font-bold ${
+                        task.status === 'COMPLETED' ? 'bg-[#009E68]/10 text-[#009E68]' : 'bg-[#2563EB]/10 text-[#2563EB]'
                       }`}>
-                        <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
-                        <span>{task.status === 'COMPLETED' ? 'Completed' : 'In Progress'}</span>
+                        {task.status === 'COMPLETED' ? 'Completed' : 'In Progress'}
                       </span>
                     </div>
                   </div>
@@ -487,61 +481,53 @@ export const Level4App: React.FC<Level4AppProps> = ({
               </div>
             </div>
 
-            {/* SECTION 3 — QUICK WORKER ACTIONS (Compact Cards, Small 18px Icons) */}
+            {/* SECTION 3 — RESTORED MULTI-COLOR QUICK WORKER ACTIONS */}
             <div className="bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl p-3.5 shadow-2xs space-y-2.5">
               <h3 className="text-xs font-bold text-[#171717] uppercase tracking-wider">Quick Worker Actions</h3>
               
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <button
                   onClick={() => setShowRequestModal(true)}
-                  className="p-2.5 bg-[#FFFDF8] hover:bg-[#F7F5F0] border border-[#E7E2D8] rounded-xl text-left flex items-center space-x-2.5 transition-colors cursor-pointer group"
+                  className="p-3 bg-sky-50/70 hover:bg-sky-100/80 border border-sky-200 rounded-xl text-left space-y-1.5 transition-all cursor-pointer group"
                 >
-                  <div className="w-7 h-7 rounded-lg bg-[#2563EB]/10 text-[#2563EB] flex items-center justify-center font-bold flex-shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold shadow-xs group-hover:scale-105 transition-transform">
                     <Send className="w-4 h-4" />
                   </div>
-                  <div className="min-w-0">
-                    <div className="font-bold text-xs text-[#171717] leading-tight truncate">Request Money</div>
-                    <div className="text-[9px] text-[#5F6368] truncate">Submit request</div>
-                  </div>
+                  <div className="font-bold text-xs text-slate-900">Request Money</div>
+                  <div className="text-[10px] text-slate-500 font-medium">Submit request</div>
                 </button>
 
                 <button
                   onClick={() => setShowExpenseModal(true)}
-                  className="p-2.5 bg-[#FFFDF8] hover:bg-[#F7F5F0] border border-[#E7E2D8] rounded-xl text-left flex items-center space-x-2.5 transition-colors cursor-pointer group"
+                  className="p-3 bg-emerald-50/70 hover:bg-emerald-100/80 border border-emerald-200 rounded-xl text-left space-y-1.5 transition-all cursor-pointer group"
                 >
-                  <div className="w-7 h-7 rounded-lg bg-[#009E68]/10 text-[#009E68] flex items-center justify-center font-bold flex-shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold shadow-xs group-hover:scale-105 transition-transform">
                     <Receipt className="w-4 h-4" />
                   </div>
-                  <div className="min-w-0">
-                    <div className="font-bold text-xs text-[#171717] leading-tight truncate">Record Expense</div>
-                    <div className="text-[9px] text-[#5F6368] truncate">Log expenditure</div>
-                  </div>
+                  <div className="font-bold text-xs text-slate-900">Record Expense</div>
+                  <div className="text-[10px] text-slate-500 font-medium">Log expenditure</div>
                 </button>
 
                 <button
                   onClick={() => setShowExpenseModal(true)}
-                  className="p-2.5 bg-[#FFFDF8] hover:bg-[#F7F5F0] border border-[#E7E2D8] rounded-xl text-left flex items-center space-x-2.5 transition-colors cursor-pointer group"
+                  className="p-3 bg-amber-50/70 hover:bg-amber-100/80 border border-amber-200 rounded-xl text-left space-y-1.5 transition-all cursor-pointer group"
                 >
-                  <div className="w-7 h-7 rounded-lg bg-[#F59E0B]/10 text-[#F59E0B] flex items-center justify-center font-bold flex-shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-amber-600 text-white flex items-center justify-center font-bold shadow-xs group-hover:scale-105 transition-transform">
                     <Upload className="w-4 h-4" />
                   </div>
-                  <div className="min-w-0">
-                    <div className="font-bold text-xs text-[#171717] leading-tight truncate">Upload Receipt</div>
-                    <div className="text-[9px] text-[#5F6368] truncate">Attach receipt</div>
-                  </div>
+                  <div className="font-bold text-xs text-slate-900">Upload Receipt</div>
+                  <div className="text-[10px] text-slate-500 font-medium">Attach receipt</div>
                 </button>
 
                 <button
                   onClick={() => setActiveTab('sources')}
-                  className="p-2.5 bg-[#FFFDF8] hover:bg-[#F7F5F0] border border-[#E7E2D8] rounded-xl text-left flex items-center space-x-2.5 transition-colors cursor-pointer group"
+                  className="p-3 bg-purple-50/70 hover:bg-purple-100/80 border border-purple-200 rounded-xl text-left space-y-1.5 transition-all cursor-pointer group"
                 >
-                  <div className="w-7 h-7 rounded-lg bg-[#24152F]/10 text-[#24152F] flex items-center justify-center font-bold flex-shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-purple-600 text-white flex items-center justify-center font-bold shadow-xs group-hover:scale-105 transition-transform">
                     <Layers className="w-4 h-4 text-[#D4AF37]" />
                   </div>
-                  <div className="min-w-0">
-                    <div className="font-bold text-xs text-[#171717] leading-tight truncate">My Sources</div>
-                    <div className="text-[9px] text-[#5F6368] truncate">View sources</div>
-                  </div>
+                  <div className="font-bold text-xs text-slate-900">My Sources</div>
+                  <div className="text-[10px] text-slate-500 font-medium">View sources</div>
                 </button>
               </div>
             </div>
@@ -574,31 +560,28 @@ export const Level4App: React.FC<Level4AppProps> = ({
                       <div>
                         <div className="font-bold text-xs text-[#171717]">{req.purpose}</div>
                         <div className="text-[10px] text-[#5F6368]">
-                          Target: <strong>{req.recipientL3Name || 'L3 Overseer'}</strong> &bull; {req.categoryName || 'Field Operations'} &bull; {req.date}
+                          Target: <strong>{req.recipientL3Name || 'L3 Overseer'}</strong> &bull; {req.date}
                         </div>
                       </div>
                       <div className="font-extrabold text-sm text-[#171717] font-mono">₹{req.amount.toLocaleString('en-IN')}</div>
                     </div>
 
-                    {/* Compact Stepper Timeline */}
+                    {/* Compact Stepper Line */}
                     <div className="pt-2 border-t border-[#E7E2D8] flex items-center justify-between text-[10px]">
                       <div className="flex items-center space-x-1 font-bold text-[#2563EB]">
-                        <CheckCircle2 className="w-3 h-3" />
-                        <span>1. Requested</span>
+                        <span>Requested</span>
                       </div>
                       <ArrowRight className="w-3 h-3 text-[#7A7A7A]" />
                       <div className={`flex items-center space-x-1 font-bold ${
                         req.status === 'APPROVED' || req.status === 'MONEY_GIVEN' ? 'text-[#F59E0B]' : 'text-[#7A7A7A]'
                       }`}>
-                        {req.status === 'APPROVED' || req.status === 'MONEY_GIVEN' ? <CheckCircle2 className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
-                        <span>2. Approved (Pending Cash)</span>
+                        <span>Approved</span>
                       </div>
                       <ArrowRight className="w-3 h-3 text-[#7A7A7A]" />
                       <div className={`flex items-center space-x-1 font-bold ${
                         req.status === 'MONEY_GIVEN' ? 'text-[#009E68]' : 'text-[#7A7A7A]'
                       }`}>
-                        {req.status === 'MONEY_GIVEN' ? <CheckCircle2 className="w-3 h-3 text-[#009E68]" /> : <Clock className="w-3 h-3" />}
-                        <span>3. Money Given</span>
+                        <span>Money Given</span>
                       </div>
                       <button
                         onClick={() => setSelectedRequestDrawer(req)}
@@ -615,7 +598,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
           </div>
         )}
 
-        {/* VIEW 3: RECORD EXPENSE */}
+        {/* VIEW 3: RECORD EXPENSE (REFERENCE BENCHMARK) */}
         {activeTab === 'expenses' && (
           <div className="space-y-4 animate-in fade-in duration-150">
             <div className="flex items-center justify-between bg-[#FFFDF8] border border-[#E7E2D8] p-4 rounded-xl shadow-2xs">
@@ -678,36 +661,40 @@ export const Level4App: React.FC<Level4AppProps> = ({
           </div>
         )}
 
-        {/* VIEW 4: MONEY STATUS TIMELINE */}
+        {/* VIEW 4: MONEY STATUS (SIMPLIFIED ACTIVITY LIST) */}
         {activeTab === 'timeline' && (
           <div className="space-y-4 animate-in fade-in duration-150">
             <div className="bg-[#FFFDF8] border border-[#E7E2D8] p-4 rounded-xl shadow-2xs">
-              <h3 className="font-bold text-sm text-[#171717]">Money Status & Audit Log</h3>
-              <p className="text-[11px] text-[#5F6368]">Chronological audit log of requests, disbursements, and expenses</p>
+              <h3 className="font-bold text-sm text-[#171717]">Money Status</h3>
+              <p className="text-[11px] text-[#5F6368]">Recent money activity, requests, disbursements, and expenses</p>
             </div>
 
-            <div className="bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl p-4 shadow-2xs space-y-3">
-              <div className="space-y-2">
+            <div className="bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl p-4 shadow-2xs">
+              <div className="divide-y divide-[#E7E2D8]">
                 {requests.map(req => (
-                  <div key={`tl-${req.id}`} className="p-3 bg-[#F7F5F0] border border-[#E7E2D8] rounded-lg space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-xs text-[#171717]">{req.purpose}</span>
-                      <span className="font-bold text-xs text-[#009E68] font-mono">₹{req.amount.toLocaleString('en-IN')}</span>
+                  <div key={`tl-${req.id}`} className="py-2.5 flex items-center justify-between gap-3">
+                    <div>
+                      <div className="font-bold text-xs text-[#171717]">{req.purpose}</div>
+                      <div className="text-[10px] text-[#5F6368]">{req.date} &bull; Sent to {req.recipientL3Name || 'L3 Overseer'}</div>
                     </div>
-                    <div className="text-[10px] text-[#5F6368]">
-                      Status: <strong className="text-[#2563EB]">{req.status}</strong> &bull; Date: {req.date} &bull; Target: {req.recipientL3Name || 'L3 Overseer'}
+                    <div className="text-right flex-shrink-0">
+                      <div className="font-extrabold text-xs text-[#009E68] font-mono">₹{req.amount.toLocaleString('en-IN')}</div>
+                      <div className="text-[10px] font-bold text-[#2563EB]">{req.status}</div>
                     </div>
                   </div>
                 ))}
 
                 {expenses.map(exp => (
-                  <div key={`tl-exp-${exp.id}`} className="p-3 bg-[#F7F5F0] border border-[#E7E2D8] rounded-lg space-y-1">
-                    <div className="flex items-center justify-between">
-                      <span className="font-bold text-xs text-[#171717]">Expense: {exp.purpose}</span>
-                      <span className="font-bold text-xs text-[#171717] font-mono">₹{exp.amount.toLocaleString('en-IN')}</span>
+                  <div key={`tl-exp-${exp.id}`} className="py-2.5 flex items-center justify-between gap-3">
+                    <div>
+                      <div className="font-bold text-xs text-[#171717]">Expense: {exp.purpose}</div>
+                      <div className="text-[10px] text-[#5F6368]">{exp.date} &bull; {exp.categoryName}</div>
                     </div>
-                    <div className="text-[10px] text-[#5F6368]">
-                      Review: <strong className={exp.acknowledgedByL3 ? "text-[#009E68]" : "text-[#F59E0B]"}>{exp.acknowledgedByL3 ? 'ACKNOWLEDGED' : 'PENDING REVIEW'}</strong> &bull; Date: {exp.date} &bull; Voucher: {exp.voucherNumber}
+                    <div className="text-right flex-shrink-0">
+                      <div className="font-extrabold text-xs text-[#171717] font-mono">₹{exp.amount.toLocaleString('en-IN')}</div>
+                      <div className={`text-[10px] font-bold ${exp.acknowledgedByL3 ? 'text-[#009E68]' : 'text-[#F59E0B]'}`}>
+                        {exp.acknowledgedByL3 ? 'Acknowledged' : 'Pending Review'}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -716,49 +703,25 @@ export const Level4App: React.FC<Level4AppProps> = ({
           </div>
         )}
 
-        {/* VIEW 5: MY SOURCES (Compact Provider Cards & Info Button for Policy) */}
+        {/* VIEW 5: MY SOURCES (ULTRA-CLEAN PROVIDER CARDS) */}
         {activeTab === 'sources' && (
           <div className="space-y-4 animate-in fade-in duration-150">
-            <div className="bg-[#FFFDF8] border border-[#E7E2D8] p-4 rounded-xl shadow-2xs flex items-center justify-between">
-              <div>
-                <h3 className="font-bold text-sm text-[#171717]">My Sources</h3>
-                <p className="text-[11px] text-[#5F6368]">Available balances categorized by supervising Level 3 provider source</p>
-              </div>
-              <button
-                onClick={() => setShowAllocationPolicy(!showAllocationPolicy)}
-                className="text-[11px] font-bold text-[#2563EB] hover:underline cursor-pointer flex items-center space-x-1"
-              >
-                <Info className="w-3.5 h-3.5" />
-                <span>{showAllocationPolicy ? 'Hide Policy' : 'Allocation Policy'}</span>
-              </button>
+            <div className="bg-[#FFFDF8] border border-[#E7E2D8] p-4 rounded-xl shadow-2xs">
+              <h3 className="font-bold text-sm text-[#171717]">My Sources</h3>
+              <p className="text-[11px] text-[#5F6368]">Fund providers and current available balances</p>
             </div>
 
-            {showAllocationPolicy && (
-              <div className="p-3 bg-[#D4AF37]/10 border border-[#D4AF37]/30 rounded-lg text-xs text-[#171717] font-medium leading-relaxed">
-                <strong>Allocation Policy:</strong> Expenses deduct from the highest-balance Level 3 provider source first. Source-level balances remain strictly isolated and auditable.
-              </div>
-            )}
-
-            <div className="bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl p-4 shadow-2xs space-y-3">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {sourceBalances.map(src => (
-                  <div key={src.id} className="p-3.5 bg-[#F7F5F0] border border-[#E7E2D8] rounded-lg space-y-2">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <div className="font-bold text-xs text-[#171717]">{src.l3Name}</div>
-                        <div className="text-[10px] text-[#5F6368]">{src.treasuryName}</div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-[9px] uppercase font-bold text-[#5F6368]">Available</div>
-                        <div className="text-base font-extrabold text-[#009E68] font-mono">₹{src.amount.toLocaleString('en-IN')}</div>
-                      </div>
-                    </div>
-                    <div className="pt-1.5 border-t border-[#E7E2D8] text-[10px] text-[#5F6368]">
-                      Last Disbursement: {src.lastDisbursed}
-                    </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {sourceBalances.map(src => (
+                <div key={src.id} className="p-4 bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl space-y-2 shadow-2xs">
+                  <div className="font-bold text-xs text-[#171717]">{src.l3Name}</div>
+                  <div className="text-[11px] text-[#5F6368] font-medium">{src.treasuryName}</div>
+                  <div className="pt-2 border-t border-[#E7E2D8] flex items-center justify-between">
+                    <span className="text-[10px] font-bold uppercase text-[#5F6368]">Available</span>
+                    <span className="text-base font-extrabold text-[#009E68] font-mono">₹{src.amount.toLocaleString('en-IN')}</span>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
