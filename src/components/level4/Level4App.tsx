@@ -18,7 +18,12 @@ import {
   ChevronRight,
   FileCheck,
   Layers,
-  Sparkles
+  Sparkles,
+  HelpCircle,
+  Info,
+  Check,
+  Calendar,
+  AlertTriangle
 } from 'lucide-react';
 import { User, MoneyRequest, Expense } from '../../types.ts';
 import { DetailDrawer } from '../common/DetailDrawer.tsx';
@@ -44,6 +49,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
 }) => {
   const [currentUser] = useState<User>(initialUser);
   const [activeTab, setActiveTab] = useState<Level4Tab>('workspace');
+  const [activityFilter, setActivityFilter] = useState<'all' | 'requests' | 'disbursements' | 'expenses'>('all');
 
   // Hierarchy Scope: Available L3 Overseers for Request & Acknowledgement
   const availableL3Overseers = [
@@ -71,8 +77,24 @@ export const Level4App: React.FC<Level4AppProps> = ({
 
   // Financial Metrics & Multi-Source Balances
   const [sourceBalances] = useState([
-    { id: 'src-l3a', l3Name: 'Rev. Dr. Thomas Vance', treasuryName: 'Region A Treasury', amount: 12000, lastDisbursed: '2026-08-10' },
-    { id: 'src-l3b', l3Name: 'Rev. Sarah Jenkins', treasuryName: 'Central Mission Fund', amount: 6500, lastDisbursed: '2026-08-14' },
+    { 
+      id: 'src-l3a', 
+      l3Name: 'Rev. Dr. Thomas Vance', 
+      treasuryName: 'Region A Treasury', 
+      amount: 12000, 
+      recentDisbursement: 15000,
+      lastDisbursed: '2026-08-10',
+      lastPurpose: 'Parish Youth Camp Equipment & Tent Supplies'
+    },
+    { 
+      id: 'src-l3b', 
+      l3Name: 'Rev. Sarah Jenkins', 
+      treasuryName: 'Central Mission Fund', 
+      amount: 6500, 
+      recentDisbursement: 10000,
+      lastDisbursed: '2026-08-14',
+      lastPurpose: 'Community Feeding Outreach Supplies'
+    },
   ]);
 
   const myAvailableBalance = sourceBalances.reduce((sum, s) => sum + s.amount, 0); // ₹18,500
@@ -230,6 +252,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
   // Modals & Drawers
   const [showRequestModal, setShowRequestModal] = useState<boolean>(false);
   const [showExpenseModal, setShowExpenseModal] = useState<boolean>(false);
+  const [showAllocationPolicy, setShowAllocationPolicy] = useState<boolean>(false);
   const [selectedRequestDrawer, setSelectedRequestDrawer] = useState<MoneyRequest | null>(null);
 
   // Request Form States
@@ -341,11 +364,12 @@ export const Level4App: React.FC<Level4AppProps> = ({
   };
 
   const pendingRequestsCount = requests.filter((r) => r.status === 'REQUESTED' || r.status === 'APPROVED').length;
+  const pendingExpensesCount = expenses.filter((e) => !e.acknowledgedByL3).length;
 
   return (
     <div id="level4-app-root" className="min-h-screen bg-[#F7F5F0] text-[#171717] flex flex-col font-sans">
       
-      {/* HEADER BAR (Compact Header with 16px Icons) */}
+      {/* HEADER BAR */}
       <header className="border-b border-[#30203D] bg-[#24152F] px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-40 shadow-xs">
         <div className="flex items-center space-x-2.5">
           <div className="w-7 h-7 rounded-lg bg-[#30203D] border border-[#D4AF37]/40 text-[#D4AF37] flex items-center justify-center font-bold">
@@ -446,7 +470,52 @@ export const Level4App: React.FC<Level4AppProps> = ({
               </div>
             </div>
 
-            {/* SECTION 2 — WORK & PROJECT ASSIGNMENTS (Simple Row List) */}
+            {/* SECTION 2 — OPERATIONAL ACTION ITEMS (NEEDS ATTENTION) */}
+            <div className="bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl p-3.5 shadow-2xs space-y-2">
+              <div className="flex items-center justify-between">
+                <h3 className="text-xs font-bold text-[#171717] uppercase tracking-wider flex items-center space-x-1.5">
+                  <AlertCircle className="w-3.5 h-3.5 text-[#2563EB]" />
+                  <span>Pending Financial & Project Actions</span>
+                </h3>
+                <span className="text-[10px] font-bold text-[#2563EB] bg-[#2563EB]/10 px-2 py-0.5 rounded-md">
+                  Active
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                <button
+                  onClick={() => setActiveTab('requests')}
+                  className="p-2.5 bg-[#F7F5F0] hover:bg-[#EFE7D8] border border-[#E7E2D8] rounded-lg text-left flex items-center space-x-2 transition-colors cursor-pointer"
+                >
+                  <div className="w-2 h-2 rounded-full bg-[#F59E0B] flex-shrink-0"></div>
+                  <div className="min-w-0">
+                    <div className="font-bold text-[#171717] text-[11px] truncate">{pendingRequestsCount} Money Requests</div>
+                    <div className="text-[10px] text-[#5F6368]">Awaiting Overseer Update</div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('expenses')}
+                  className="p-2.5 bg-[#F7F5F0] hover:bg-[#EFE7D8] border border-[#E7E2D8] rounded-lg text-left flex items-center space-x-2 transition-colors cursor-pointer"
+                >
+                  <div className="w-2 h-2 rounded-full bg-[#2563EB] flex-shrink-0"></div>
+                  <div className="min-w-0">
+                    <div className="font-bold text-[#171717] text-[11px] truncate">{pendingExpensesCount} Expense Voucher</div>
+                    <div className="text-[10px] text-[#5F6368]">Pending Overseer Review</div>
+                  </div>
+                </button>
+
+                <div className="p-2.5 bg-[#F7F5F0] border border-[#E7E2D8] rounded-lg flex items-center space-x-2">
+                  <div className="w-2 h-2 rounded-full bg-[#009E68] flex-shrink-0"></div>
+                  <div className="min-w-0">
+                    <div className="font-bold text-[#171717] text-[11px] truncate">1 Assigned Task</div>
+                    <div className="text-[10px] text-[#5F6368]">In Progress & Funded</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* SECTION 3 — WORK & PROJECT ASSIGNMENTS (Simple Row List) */}
             <div className="bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl p-3.5 shadow-2xs space-y-2">
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-bold text-[#171717] uppercase tracking-wider flex items-center space-x-1.5">
@@ -481,14 +550,14 @@ export const Level4App: React.FC<Level4AppProps> = ({
               </div>
             </div>
 
-            {/* SECTION 3 — RESTORED MULTI-COLOR QUICK WORKER ACTIONS */}
+            {/* SECTION 4 — RESTORED MULTI-COLOR QUICK WORKER ACTIONS */}
             <div className="bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl p-3.5 shadow-2xs space-y-2.5">
               <h3 className="text-xs font-bold text-[#171717] uppercase tracking-wider">Quick Worker Actions</h3>
               
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <button
                   onClick={() => setShowRequestModal(true)}
-                  className="p-3 bg-sky-50/70 hover:bg-sky-100/80 border border-sky-200 rounded-xl text-left space-y-1.5 transition-all cursor-pointer group"
+                  className="p-3.5 bg-sky-50/70 hover:bg-sky-100/80 border border-sky-200 rounded-xl text-left space-y-1.5 transition-all cursor-pointer group"
                 >
                   <div className="w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold shadow-xs group-hover:scale-105 transition-transform">
                     <Send className="w-4 h-4" />
@@ -499,7 +568,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
 
                 <button
                   onClick={() => setShowExpenseModal(true)}
-                  className="p-3 bg-emerald-50/70 hover:bg-emerald-100/80 border border-emerald-200 rounded-xl text-left space-y-1.5 transition-all cursor-pointer group"
+                  className="p-3.5 bg-emerald-50/70 hover:bg-emerald-100/80 border border-emerald-200 rounded-xl text-left space-y-1.5 transition-all cursor-pointer group"
                 >
                   <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center font-bold shadow-xs group-hover:scale-105 transition-transform">
                     <Receipt className="w-4 h-4" />
@@ -510,7 +579,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
 
                 <button
                   onClick={() => setShowExpenseModal(true)}
-                  className="p-3 bg-amber-50/70 hover:bg-amber-100/80 border border-amber-200 rounded-xl text-left space-y-1.5 transition-all cursor-pointer group"
+                  className="p-3.5 bg-amber-50/70 hover:bg-amber-100/80 border border-amber-200 rounded-xl text-left space-y-1.5 transition-all cursor-pointer group"
                 >
                   <div className="w-8 h-8 rounded-lg bg-amber-600 text-white flex items-center justify-center font-bold shadow-xs group-hover:scale-105 transition-transform">
                     <Upload className="w-4 h-4" />
@@ -521,7 +590,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
 
                 <button
                   onClick={() => setActiveTab('sources')}
-                  className="p-3 bg-purple-50/70 hover:bg-purple-100/80 border border-purple-200 rounded-xl text-left space-y-1.5 transition-all cursor-pointer group"
+                  className="p-3.5 bg-purple-50/70 hover:bg-purple-100/80 border border-purple-200 rounded-xl text-left space-y-1.5 transition-all cursor-pointer group"
                 >
                   <div className="w-8 h-8 rounded-lg bg-purple-600 text-white flex items-center justify-center font-bold shadow-xs group-hover:scale-105 transition-transform">
                     <Layers className="w-4 h-4 text-[#D4AF37]" />
@@ -549,6 +618,26 @@ export const Level4App: React.FC<Level4AppProps> = ({
                 <PlusCircle className="w-4 h-4" />
                 <span>+ Request Money</span>
               </button>
+            </div>
+
+            {/* SUMMARY STRIP */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+              <div className="p-3 bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl text-center">
+                <div className="text-[10px] font-bold text-[#5F6368] uppercase">Total Requested</div>
+                <div className="text-base font-extrabold text-[#171717] font-mono mt-0.5">₹30,000</div>
+              </div>
+              <div className="p-3 bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl text-center">
+                <div className="text-[10px] font-bold text-[#5F6368] uppercase">Pending Approval</div>
+                <div className="text-base font-extrabold text-[#2563EB] mt-0.5">1</div>
+              </div>
+              <div className="p-3 bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl text-center">
+                <div className="text-[10px] font-bold text-[#5F6368] uppercase">Approved (Pending Cash)</div>
+                <div className="text-base font-extrabold text-[#F59E0B] mt-0.5">1</div>
+              </div>
+              <div className="p-3 bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl text-center">
+                <div className="text-[10px] font-bold text-[#5F6368] uppercase">Money Given</div>
+                <div className="text-base font-extrabold text-[#009E68] mt-0.5">1</div>
+              </div>
             </div>
 
             <div className="bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl p-4 shadow-2xs space-y-3">
@@ -615,6 +704,22 @@ export const Level4App: React.FC<Level4AppProps> = ({
               </button>
             </div>
 
+            {/* DENSITY BENCHMARK SUMMARY STRIP */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+              <div className="p-3 bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl text-center">
+                <div className="text-[10px] font-bold text-[#5F6368] uppercase">Total Recorded</div>
+                <div className="text-base font-extrabold text-[#171717] font-mono mt-0.5">₹{myTotalSpent.toLocaleString('en-IN')}</div>
+              </div>
+              <div className="p-3 bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl text-center">
+                <div className="text-[10px] font-bold text-[#5F6368] uppercase">Acknowledged</div>
+                <div className="text-base font-extrabold text-[#009E68] mt-0.5">1</div>
+              </div>
+              <div className="p-3 bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl text-center">
+                <div className="text-[10px] font-bold text-[#5F6368] uppercase">Pending Overseer Review</div>
+                <div className="text-base font-extrabold text-[#F59E0B] mt-0.5">1</div>
+              </div>
+            </div>
+
             <div className="bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl p-4 shadow-2xs space-y-3">
               <h4 className="text-[10px] font-bold text-[#5F6368] uppercase tracking-wider">Submitted Expense Vouchers</h4>
               <div className="overflow-x-auto">
@@ -661,17 +766,54 @@ export const Level4App: React.FC<Level4AppProps> = ({
           </div>
         )}
 
-        {/* VIEW 4: MONEY STATUS (SIMPLIFIED ACTIVITY LIST) */}
+        {/* VIEW 4: MONEY STATUS (SIMPLIFIED ACTIVITY FEED) */}
         {activeTab === 'timeline' && (
           <div className="space-y-4 animate-in fade-in duration-150">
-            <div className="bg-[#FFFDF8] border border-[#E7E2D8] p-4 rounded-xl shadow-2xs">
-              <h3 className="font-bold text-sm text-[#171717]">Money Status</h3>
-              <p className="text-[11px] text-[#5F6368]">Recent money activity, requests, disbursements, and expenses</p>
+            <div className="bg-[#FFFDF8] border border-[#E7E2D8] p-4 rounded-xl shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <h3 className="font-bold text-sm text-[#171717]">Money Status</h3>
+                <p className="text-[11px] text-[#5F6368]">Recent money activity, requests, disbursements, and expenses</p>
+              </div>
+
+              {/* Simple Filter Tabs */}
+              <div className="flex items-center space-x-1 bg-[#F7F5F0] p-1 border border-[#E7E2D8] rounded-lg text-[10px] font-bold">
+                {(['all', 'requests', 'disbursements', 'expenses'] as const).map(f => (
+                  <button
+                    key={f}
+                    onClick={() => setActivityFilter(f)}
+                    className={`px-2.5 py-1 rounded transition-colors cursor-pointer capitalize ${
+                      activityFilter === f ? 'bg-[#24152F] text-white' : 'text-[#5F6368] hover:text-[#171717]'
+                    }`}
+                  >
+                    {f}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* ACTIVITY SUMMARY STRIP */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+              <div className="p-2.5 bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl text-center">
+                <div className="text-[9px] font-bold text-[#5F6368] uppercase">Requested</div>
+                <div className="text-sm font-extrabold text-[#171717] font-mono mt-0.5">₹30,000</div>
+              </div>
+              <div className="p-2.5 bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl text-center">
+                <div className="text-[9px] font-bold text-[#5F6368] uppercase">Approved</div>
+                <div className="text-sm font-extrabold text-[#F59E0B] font-mono mt-0.5">₹10,000</div>
+              </div>
+              <div className="p-2.5 bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl text-center">
+                <div className="text-[9px] font-bold text-[#5F6368] uppercase">Money Given</div>
+                <div className="text-sm font-extrabold text-[#009E68] font-mono mt-0.5">₹15,000</div>
+              </div>
+              <div className="p-2.5 bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl text-center">
+                <div className="text-[9px] font-bold text-[#5F6368] uppercase">Expenses</div>
+                <div className="text-sm font-extrabold text-[#171717] font-mono mt-0.5">₹26,500</div>
+              </div>
             </div>
 
             <div className="bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl p-4 shadow-2xs">
               <div className="divide-y divide-[#E7E2D8]">
-                {requests.map(req => (
+                {(activityFilter === 'all' || activityFilter === 'requests' || activityFilter === 'disbursements') && requests.map(req => (
                   <div key={`tl-${req.id}`} className="py-2.5 flex items-center justify-between gap-3">
                     <div>
                       <div className="font-bold text-xs text-[#171717]">{req.purpose}</div>
@@ -684,7 +826,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                   </div>
                 ))}
 
-                {expenses.map(exp => (
+                {(activityFilter === 'all' || activityFilter === 'expenses') && expenses.map(exp => (
                   <div key={`tl-exp-${exp.id}`} className="py-2.5 flex items-center justify-between gap-3">
                     <div>
                       <div className="font-bold text-xs text-[#171717]">Expense: {exp.purpose}</div>
@@ -703,31 +845,115 @@ export const Level4App: React.FC<Level4AppProps> = ({
           </div>
         )}
 
-        {/* VIEW 5: MY SOURCES (ULTRA-CLEAN PROVIDER CARDS) */}
+        {/* VIEW 5: MY SOURCES (RICH PROVIDER CARDS & SOURCE ACTIVITY FEED) */}
         {activeTab === 'sources' && (
           <div className="space-y-4 animate-in fade-in duration-150">
-            <div className="bg-[#FFFDF8] border border-[#E7E2D8] p-4 rounded-xl shadow-2xs">
-              <h3 className="font-bold text-sm text-[#171717]">My Sources</h3>
-              <p className="text-[11px] text-[#5F6368]">Fund providers and current available balances</p>
+            <div className="bg-[#FFFDF8] border border-[#E7E2D8] p-4 rounded-xl shadow-2xs flex items-center justify-between">
+              <div>
+                <h3 className="font-bold text-sm text-[#171717]">My Sources</h3>
+                <p className="text-[11px] text-[#5F6368]">Fund providers and current available balances</p>
+              </div>
+              <button
+                onClick={() => setShowAllocationPolicy(true)}
+                className="text-[11px] font-bold text-[#2563EB] hover:underline cursor-pointer flex items-center space-x-1"
+              >
+                <Info className="w-3.5 h-3.5" />
+                <span>Allocation Policy</span>
+              </button>
             </div>
 
+            {/* SOURCE SUMMARY STRIP */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div className="p-3 bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl flex items-center justify-between">
+                <div>
+                  <div className="text-[10px] font-bold text-[#5F6368] uppercase">Total Available Balance</div>
+                  <div className="text-xl font-extrabold text-[#009E68] font-mono mt-0.5">₹{myAvailableBalance.toLocaleString('en-IN')}</div>
+                </div>
+                <span className="px-2 py-1 rounded bg-[#009E68]/10 text-[#009E68] text-[10px] font-bold">2 Active Sources</span>
+              </div>
+
+              <div className="p-3 bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl flex items-center justify-between">
+                <div>
+                  <div className="text-[10px] font-bold text-[#5F6368] uppercase">Total Funds Received</div>
+                  <div className="text-xl font-extrabold text-[#171717] font-mono mt-0.5">₹{myTotalReceived.toLocaleString('en-IN')}</div>
+                </div>
+                <span className="px-2 py-1 rounded bg-[#2563EB]/10 text-[#2563EB] text-[10px] font-bold">L3 Disbursed</span>
+              </div>
+            </div>
+
+            {/* SOURCE PROVIDER CARDS WITH DETAILS */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {sourceBalances.map(src => (
-                <div key={src.id} className="p-4 bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl space-y-2 shadow-2xs">
-                  <div className="font-bold text-xs text-[#171717]">{src.l3Name}</div>
-                  <div className="text-[11px] text-[#5F6368] font-medium">{src.treasuryName}</div>
-                  <div className="pt-2 border-t border-[#E7E2D8] flex items-center justify-between">
-                    <span className="text-[10px] font-bold uppercase text-[#5F6368]">Available</span>
-                    <span className="text-base font-extrabold text-[#009E68] font-mono">₹{src.amount.toLocaleString('en-IN')}</span>
+                <div key={src.id} className="p-4 bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl space-y-3 shadow-2xs">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <div className="font-bold text-xs text-[#171717]">{src.l3Name}</div>
+                      <div className="text-[11px] text-[#5F6368] font-medium">{src.treasuryName}</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-[9px] uppercase font-bold text-[#5F6368]">Available</div>
+                      <div className="text-base font-extrabold text-[#009E68] font-mono">₹{src.amount.toLocaleString('en-IN')}</div>
+                    </div>
+                  </div>
+
+                  <div className="p-2.5 bg-[#F7F5F0] border border-[#E7E2D8] rounded-lg space-y-1 text-[11px]">
+                    <div className="flex items-center justify-between text-[#5F6368]">
+                      <span>Recent Disbursement:</span>
+                      <strong className="text-[#171717] font-mono">₹{src.recentDisbursement.toLocaleString('en-IN')}</strong>
+                    </div>
+                    <div className="flex items-center justify-between text-[#5F6368]">
+                      <span>Disbursed Date:</span>
+                      <strong className="text-[#171717]">{src.lastDisbursed}</strong>
+                    </div>
+                    <div className="text-[10px] text-[#5F6368] truncate pt-1 border-t border-[#E7E2D8]">
+                      Used for: {src.lastPurpose}
+                    </div>
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* RECENT SOURCE ACTIVITY FEED */}
+            <div className="bg-[#FFFDF8] border border-[#E7E2D8] rounded-xl p-4 shadow-2xs space-y-3">
+              <h4 className="text-[10px] font-bold text-[#5F6368] uppercase tracking-wider">Recent Source Activity Log</h4>
+              <div className="divide-y divide-[#E7E2D8]">
+                {sourceBalances.map(src => (
+                  <div key={`act-${src.id}`} className="py-2.5 flex items-center justify-between text-xs">
+                    <div>
+                      <div className="font-bold text-[#171717]">{src.l3Name} &bull; {src.lastPurpose}</div>
+                      <div className="text-[10px] text-[#5F6368]">Date: {src.lastDisbursed}</div>
+                    </div>
+                    <div className="font-extrabold text-[#009E68] font-mono">+₹{src.recentDisbursement.toLocaleString('en-IN')}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
 
         </main>
       </div>
+
+      {/* ALLOCATION POLICY MODAL */}
+      {showAllocationPolicy && (
+        <div className="fixed inset-0 bg-[#24152F]/70 backdrop-blur-xs flex items-center justify-center z-50 p-4">
+          <div className="bg-[#FFFDF8] border border-[#E7E2D8] rounded-3xl p-6 max-w-md w-full space-y-4 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-[#E7E2D8] pb-3">
+              <h3 className="font-bold text-base text-[#171717]">Source Allocation Policy</h3>
+              <button onClick={() => setShowAllocationPolicy(false)} className="text-[#7A7A7A] hover:text-[#171717] font-bold text-xs cursor-pointer">✕</button>
+            </div>
+            <p className="text-xs text-[#5F6368] leading-relaxed">
+              When parish field expenses are recorded, funds are automatically deducted from the higher-balance Level 3 provider source first. Source balances remain strictly isolated, auditable, and traceable.
+            </p>
+            <button
+              onClick={() => setShowAllocationPolicy(false)}
+              className="w-full py-2.5 bg-[#24152F] text-white text-xs font-bold rounded-xl cursor-pointer"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* REQUEST DETAIL DRAWER */}
       <DetailDrawer
