@@ -1,0 +1,6 @@
+{
+  "name": "Church Financial Management",
+  "description": "Multi-person hierarchy and source-aware financial management system for church operations, field overseers, parish logistics, multi-source allocations, expense verification, OCR discrepancy audits, and bank reconciliation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
