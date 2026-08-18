@@ -455,35 +455,40 @@ export const Level4App: React.FC<Level4AppProps> = ({
               </div>
             </div>
 
-            {/* SECTION 2 — PROACTIVE L3 WORK ASSIGNMENTS (Path B) */}
-            <div className="bg-[#FFFDF8] border border-[#E7E2D8] rounded-2xl p-6 shadow-xs space-y-4">
+            {/* SECTION 2 — PROACTIVE L3 WORK ASSIGNMENTS (Compact Module) */}
+            <div className="bg-[#FFFDF8] border border-[#E7E2D8] rounded-2xl p-4 sm:p-5 shadow-xs space-y-3">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-[#171717] tracking-tight flex items-center space-x-2">
-                  <Sparkles className="w-4 h-4 text-[#D4AF37]" />
-                  <span>Work & Project Assignments (Assigned by L3 Supervisor)</span>
+                <h3 className="text-xs font-bold text-[#171717] uppercase tracking-wider flex items-center space-x-2">
+                  <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
+                  <span>Work & Project Assignments</span>
                 </h3>
-                <span className="text-xs font-semibold text-[#5F6368]">{proactiveWorkAssignments.length} Active Tasks</span>
+                <span className="text-[11px] font-bold text-[#24152F] bg-[#D4AF37]/20 px-2 py-0.5 rounded-full">
+                  {proactiveWorkAssignments.length} Active Tasks
+                </span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="divide-y divide-[#E7E2D8] border border-[#E7E2D8] rounded-xl overflow-hidden bg-[#F7F5F0]">
                 {proactiveWorkAssignments.map((task) => (
-                  <div key={task.id} className="p-4 bg-[#F7F5F0] border border-[#E7E2D8] rounded-xl space-y-2">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#D4AF37]/20 text-[#24152F]">
-                          ASSIGNED BY {task.assignedByL3Name.toUpperCase()}
-                        </span>
-                        <h4 className="font-bold text-sm text-[#171717] mt-1.5">{task.taskTitle}</h4>
+                  <div key={task.id} className="p-3 hover:bg-[#FFFDF8] transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div className="space-y-0.5 min-w-0 flex-1">
+                      <div className="flex items-center space-x-2">
+                        <span className="font-bold text-xs text-[#171717] truncate">{task.taskTitle}</span>
+                        <span className="text-[10px] text-[#5F6368] font-medium hidden md:inline">&bull; {task.assignedDate}</span>
                       </div>
-                      <span className="font-extrabold text-sm text-[#009E68] font-mono">
-                        ₹{task.allocatedAmount.toLocaleString('en-IN')}
-                      </span>
+                      <p className="text-[11px] text-[#5F6368] truncate">
+                        <strong className="text-[#24152F]">Assigned by {task.assignedByL3Name}:</strong> {task.instructions}
+                      </p>
                     </div>
-                    <p className="text-xs text-[#5F6368] leading-relaxed">{task.instructions}</p>
-                    <div className="pt-2 border-t border-[#E7E2D8] flex items-center justify-between text-[11px]">
-                      <span className="text-[#7A7A7A]">Date: {task.assignedDate}</span>
-                      <span className={`font-bold ${task.status === 'COMPLETED' ? 'text-[#009E68]' : 'text-[#2563EB]'}`}>
-                        ● {task.status === 'COMPLETED' ? 'Work Completed' : 'Task In Progress'}
+
+                    <div className="flex items-center space-x-3 flex-shrink-0 sm:self-center">
+                      <div className="text-right">
+                        <div className="font-extrabold text-xs text-[#009E68] font-mono">₹{task.allocatedAmount.toLocaleString('en-IN')}</div>
+                      </div>
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold flex items-center space-x-1 ${
+                        task.status === 'COMPLETED' ? 'bg-[#009E68]/10 text-[#009E68] border border-[#009E68]/30' : 'bg-[#2563EB]/10 text-[#2563EB] border border-[#2563EB]/30'
+                      }`}>
+                        <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
+                        <span>{task.status === 'COMPLETED' ? 'Completed' : 'In Progress'}</span>
                       </span>
                     </div>
                   </div>
