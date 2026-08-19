@@ -160,10 +160,10 @@ export const RequestReviewModal: React.FC<RequestReviewModalProps> = ({
                       : 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
                   }`}
                 >
-                  {request.status === 'APPROVED' ? 'APPROVED — MONEY NOT YET GIVEN' : request.status}
+                   {request.status === 'APPROVED' ? 'APPROVED' : request.status}
                 </span>
               </div>
-              <p className="text-xs text-slate-400">Level 3 Single-Surface Request Review</p>
+              <p className="text-xs text-slate-400">Review & approve</p>
             </div>
           </div>
           <button
@@ -179,7 +179,6 @@ export const RequestReviewModal: React.FC<RequestReviewModalProps> = ({
           <div className="mx-6 mt-4 p-3 bg-rose-50 border border-rose-200 rounded-lg flex items-start space-x-2.5 text-xs text-rose-800">
             <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5" />
             <div>
-              <strong className="font-semibold">Review Error: </strong>
               <span>{errorMsg}</span>
             </div>
           </div>
@@ -216,7 +215,7 @@ export const RequestReviewModal: React.FC<RequestReviewModalProps> = ({
             <div className="bg-stone-50/80 p-3 rounded-lg border border-stone-200">
               <div className="text-stone-500 font-semibold mb-1 flex items-center space-x-1.5">
                 <User className="w-3.5 h-3.5 text-stone-400" />
-                <span>Level 4 Requester</span>
+                <span>Requester</span>
               </div>
               <div className="font-bold text-stone-900">{request.requesterName}</div>
               <div className="text-[11px] text-stone-600">{request.requesterDesignation}</div>
@@ -238,7 +237,7 @@ export const RequestReviewModal: React.FC<RequestReviewModalProps> = ({
           <div className="bg-stone-50/80 p-3.5 rounded-lg border border-stone-200 text-xs">
             <div className="text-stone-500 font-semibold mb-1 flex items-center space-x-1.5">
               <FileText className="w-3.5 h-3.5 text-stone-400" />
-              <span>Requester Remarks / Justification</span>
+                <span>Remarks</span>
             </div>
             <p className="text-stone-800 leading-relaxed font-medium">
               "{request.remarks || 'No remarks provided.'}"
@@ -249,7 +248,7 @@ export const RequestReviewModal: React.FC<RequestReviewModalProps> = ({
           {(request.status === 'REQUESTED' || request.status === 'APPROVED') && !isRejecting && (
             <div className="bg-slate-50 border border-slate-200 p-3.5 rounded-lg space-y-2.5">
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                Select Level 2 Source Balance for Disbursement
+                Select Source
               </label>
               <select
                 id="request-source-select"
@@ -273,27 +272,20 @@ export const RequestReviewModal: React.FC<RequestReviewModalProps> = ({
             </div>
           )}
 
-          {/* Undefined Partial Disbursement Explicit Rule Notice */}
-          <div className="bg-amber-50/80 border border-amber-200 p-2.5 rounded-lg text-[10.5px] text-amber-900 flex items-start space-x-2">
-            <Info className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-            <div>
-              <strong className="font-semibold">Business Rule Discipline: </strong>
-              <span>REQUEST MONEY &ne; EXPENSE &bull; APPROVAL &ne; MONEY GIVEN &bull; UNDEFINED — PARTIAL DISBURSEMENT BUSINESS RULE (Partial payments prohibited).</span>
-            </div>
-          </div>
+
 
           {/* Rejection Input Box if triggered */}
           {isRejecting && (
             <div className="bg-rose-50 border border-rose-200 p-3.5 rounded-lg space-y-2">
               <label className="block text-xs font-bold text-rose-900 uppercase tracking-wider">
-                Rejection Reason (Recorded in Audit Log) <span className="text-rose-600">*</span>
+                Reason for Rejection <span className="text-rose-600">*</span>
               </label>
               <textarea
                 id="rejection-reason-input"
                 rows={2}
                 value={rejectReason}
                 onChange={(e) => setRejectReason(e.target.value)}
-                placeholder="State the financial or operational reason for rejection..."
+                placeholder="Why is this being rejected?"
                 className="w-full bg-white border border-rose-300 rounded-lg px-3 py-2 text-xs text-stone-900 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-hidden"
               />
               <div className="flex items-center justify-end space-x-2 pt-1">
@@ -342,7 +334,7 @@ export const RequestReviewModal: React.FC<RequestReviewModalProps> = ({
                       title="Approves request without moving money. Balances remain untouched until disbursement."
                     >
                       <CheckCircle2 className="w-4 h-4 text-slate-600" />
-                      <span>Approve Only (Give Later)</span>
+                      <span>Approve Only</span>
                     </button>
 
                     {/* Approve & Give Immediately */}
@@ -359,7 +351,7 @@ export const RequestReviewModal: React.FC<RequestReviewModalProps> = ({
                       title="Approves and executes immediate balance deduction from selected source"
                     >
                       <Send className="w-4 h-4" />
-                      <span>Approve & Give Now</span>
+                      <span>Approve & Give</span>
                     </button>
                   </>
                 )}
@@ -384,7 +376,7 @@ export const RequestReviewModal: React.FC<RequestReviewModalProps> = ({
                 {request.status === 'MONEY_GIVEN' && (
                   <div className="text-xs font-bold text-emerald-700 flex items-center space-x-1 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    <span>Disbursed from {request.sourceL2Name || 'Level 2 Source'}</span>
+                    <span>Sent from {request.sourceL2Name || 'Level 2 Source'}</span>
                   </div>
                 )}
               </div>

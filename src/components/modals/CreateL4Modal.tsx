@@ -71,7 +71,7 @@ export const CreateL4Modal: React.FC<CreateL4ModalProps> = ({
             </div>
             <div>
               <h3 className="font-bold text-base text-white">Create Level 4 Person</h3>
-              <p className="text-xs text-slate-400">Direct creation under Level 3 management (Rule 5)</p>
+              <p className="text-xs text-slate-400">Add a new team member</p>
             </div>
           </div>
           <button
@@ -164,12 +164,7 @@ export const CreateL4Modal: React.FC<CreateL4ModalProps> = ({
             />
           </div>
 
-          <div className="bg-stone-50 p-2.5 rounded-lg border border-stone-200 text-[11px] text-stone-600 flex items-start space-x-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
-            <span>
-              Per Rule 5: There is no additional approval step for Level 4 creation. The creation action will be automatically recorded in the audit trail.
-            </span>
-          </div>
+
 
           <div className="pt-3 border-t border-stone-200 flex items-center justify-end space-x-3">
             <button
@@ -186,7 +181,7 @@ export const CreateL4Modal: React.FC<CreateL4ModalProps> = ({
               className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-lg shadow-sm flex items-center space-x-1.5 transition-colors"
             >
               <UserPlus className="w-3.5 h-3.5" />
-              <span>{isSubmitting ? 'Creating...' : 'Register Level 4 Person'}</span>
+              <span>{isSubmitting ? 'Creating...' : 'Add Worker'}</span>
             </button>
           </div>
         </form>

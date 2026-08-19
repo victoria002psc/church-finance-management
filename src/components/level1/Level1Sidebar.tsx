@@ -1,25 +1,23 @@
 import React from 'react';
 import { 
+  LayoutDashboard, 
   TrendingUp, 
-  Building2, 
-  Church, 
-  DollarSign, 
-  CreditCard, 
-  AlertTriangle, 
   Users, 
-  FileText, 
+  Scale, 
+  FileSpreadsheet, 
+  History, 
+  Settings, 
   LogOut 
 } from 'lucide-react';
 
 export type Level1Tab = 
-  | 'overview' 
-  | 'budgets' 
-  | 'multisource' 
-  | 'disbursements' 
-  | 'advances' 
-  | 'exceptions' 
+  | 'dashboard' 
+  | 'financial' 
   | 'hierarchy' 
-  | 'audit';
+  | 'reconciliation' 
+  | 'reports' 
+  | 'audit' 
+  | 'settings';
 
 interface Level1SidebarProps {
   activeTab: Level1Tab;
@@ -38,62 +36,55 @@ export const Level1Sidebar: React.FC<Level1SidebarProps> = ({
 }) => {
   const navItems = [
     {
-      id: 'overview',
-      label: 'Executive Overview',
+      id: 'dashboard',
+      label: 'Dashboard',
+      icon: LayoutDashboard,
+      badge: null,
+      sublabel: 'Executive Snapshot',
+    },
+    {
+      id: 'financial',
+      label: 'Financial Overview',
       icon: TrendingUp,
-      badge: null,
-      sublabel: 'Diocesan Financial Snapshot',
-    },
-    {
-      id: 'budgets',
-      label: 'L2 Department Budgets',
-      icon: Building2,
-      badge: null,
-      sublabel: 'Control Funds & Allocations',
-    },
-    {
-      id: 'multisource',
-      label: 'Multi-Source Breakdown',
-      icon: Church,
-      badge: null,
-      sublabel: 'Level 3 Ledger Traceability',
-    },
-    {
-      id: 'disbursements',
-      label: 'Direct Executive Grants',
-      icon: DollarSign,
-      badge: null,
-      sublabel: 'Bishop Direct Grants',
-    },
-    {
-      id: 'advances',
-      label: 'Advances & Settlements',
-      icon: CreditCard,
       badge: outstandingAdvancesCount > 0 ? `${outstandingAdvancesCount}` : null,
       badgeColor: 'bg-[#F59E0B] text-[#24152F]',
-      sublabel: 'Issued Staff Advances',
-    },
-    {
-      id: 'exceptions',
-      label: 'Exceptions & Issues',
-      icon: AlertTriangle,
-      badge: activeExceptionsCount > 0 ? activeExceptionsCount : null,
-      badgeColor: 'bg-[#E11D48] text-white',
-      sublabel: 'Auditing Flagged Discrepancies',
+      sublabel: 'Movements & Grants',
     },
     {
       id: 'hierarchy',
-      label: 'Diocesan Hierarchy',
+      label: 'People & Hierarchy',
       icon: Users,
       badge: null,
-      sublabel: 'Governance Architecture',
+      sublabel: 'Diocesan Structure',
+    },
+    {
+      id: 'reconciliation',
+      label: 'Reconciliation',
+      icon: Scale,
+      badge: null,
+      sublabel: 'Bank vs Cash Ledger',
+    },
+    {
+      id: 'reports',
+      label: 'Reports',
+      icon: FileSpreadsheet,
+      badge: null,
+      sublabel: 'Financial Statements',
     },
     {
       id: 'audit',
-      label: 'Compliance Audit Trail',
-      icon: FileText,
+      label: 'Audit & Transparency',
+      icon: History,
+      badge: activeExceptionsCount > 0 ? activeExceptionsCount : null,
+      badgeColor: 'bg-[#E11D48] text-white',
+      sublabel: 'Compliance & Logs',
+    },
+    {
+      id: 'settings',
+      label: 'Settings',
+      icon: Settings,
       badge: null,
-      sublabel: 'Authoritative Log',
+      sublabel: 'System Configuration',
     },
   ];
 
@@ -102,10 +93,7 @@ export const Level1Sidebar: React.FC<Level1SidebarProps> = ({
       <div className="space-y-6">
         {/* Module Title */}
         <div className="px-5">
-          <div className="text-[10px] uppercase font-bold tracking-wider text-[#F4E7B5]/60">
-            Navigation Menu
-          </div>
-          <div className="text-xs font-semibold text-[#F4E7B5] mt-0.5">
+          <div className="text-xs font-semibold text-[#F4E7B5]">
             Level 1 Executive Portal
           </div>
         </div>
@@ -172,3 +160,4 @@ export const Level1Sidebar: React.FC<Level1SidebarProps> = ({
     </aside>
   );
 };
+

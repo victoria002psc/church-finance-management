@@ -91,11 +91,11 @@ export const ExpenseDetailModal: React.FC<ExpenseDetailModalProps> = ({
                 </span>
                 {expense.isAcknowledgedByL3 && (
                   <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] uppercase font-bold px-2 py-0.5 rounded">
-                    L3 Acknowledged
+                    Acknowledged
                   </span>
                 )}
               </div>
-              <p className="text-xs text-slate-400">Supporting Document, OCR Verification & Source Traceability</p>
+              <p className="text-xs text-slate-400">Document & OCR review</p>
             </div>
           </div>
           <button
@@ -135,7 +135,7 @@ export const ExpenseDetailModal: React.FC<ExpenseDetailModalProps> = ({
             <div className="bg-stone-50/80 p-3 rounded-lg border border-stone-200">
               <div className="text-stone-500 font-semibold mb-1 flex items-center space-x-1.5">
                 <User className="w-3.5 h-3.5 text-stone-400" />
-                <span>Level 4 Spender</span>
+                <span>Submitted By</span>
               </div>
               <div className="font-bold text-stone-900">{expense.personL4Name}</div>
             </div>
@@ -167,7 +167,7 @@ export const ExpenseDetailModal: React.FC<ExpenseDetailModalProps> = ({
           <div className="bg-slate-50 border border-slate-200 p-3.5 rounded-lg text-xs space-y-1.5">
             <div className="flex items-center space-x-1.5 font-bold text-slate-800 uppercase text-[10.5px]">
               <Layers className="w-3.5 h-3.5 text-slate-500" />
-              <span>Source Allocation (Where the Rupee Came From)</span>
+              <span>Source Allocation</span>
             </div>
             {expense.sourceAllocations.map((src, idx) => (
               <div key={idx} className="flex items-center justify-between text-[11.5px] bg-white p-2 rounded border border-slate-200">
@@ -182,7 +182,7 @@ export const ExpenseDetailModal: React.FC<ExpenseDetailModalProps> = ({
             <div className="bg-stone-100 px-4 py-2.5 border-b border-stone-200 flex items-center justify-between">
               <div className="flex items-center space-x-2 text-xs font-bold text-stone-800">
                 <Scan className="w-4 h-4 text-teal-600" />
-                <span>Supporting Document & OCR Extraction</span>
+                <span>Document & OCR</span>
               </div>
               <span className="text-[11px] font-semibold text-stone-500">Doc Type: {expense.documentType}</span>
             </div>
@@ -192,8 +192,8 @@ export const ExpenseDetailModal: React.FC<ExpenseDetailModalProps> = ({
                 <div className="bg-amber-50 border border-amber-200 p-3 rounded-lg text-xs text-amber-900 flex items-start space-x-2">
                   <FileText className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
                   <div>
-                    <strong className="font-semibold">Advance / Cash Voucher Applied: </strong>
-                    <span>A formal bill does not exist for this advance. The voucher is linked authoritatively to this expense per Rule 22.</span>
+                    <strong className="font-semibold">Advance / Cash Voucher: </strong>
+                    <span>No formal bill attached.</span>
                   </div>
                 </div>
               )}
@@ -211,15 +211,12 @@ export const ExpenseDetailModal: React.FC<ExpenseDetailModalProps> = ({
                         <p className="text-rose-800">
                           Extracted Amount: <span className="font-mono font-bold">₹{expense.ocrResult.extractedAmount.toLocaleString('en-IN')}</span> vs Transaction Amount: <span className="font-mono font-bold">₹{expense.amount.toLocaleString('en-IN')}</span> (Difference: <span className="font-mono font-bold">₹{(expense.ocrResult.extractedAmount - expense.amount).toLocaleString('en-IN')}</span>).
                         </p>
-                        <p className="text-[11px] text-rose-700 italic">
-                          Per Rule 23: The mismatch remains visible. The system does not silently modify transactions or treat OCR as automated approval.
-                        </p>
                       </div>
                     </div>
                   ) : (
                     <div className="bg-emerald-50 border border-emerald-200 p-3 rounded-lg flex items-center space-x-2 text-xs text-emerald-800">
                       <CheckCircle className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                      <span>OCR extracted amount matches the transaction amount (₹{expense.amount.toLocaleString('en-IN')}).</span>
+                      <span>OCR amount matches (₹{expense.amount.toLocaleString('en-IN')}).</span>
                     </div>
                   )}
 
@@ -280,12 +277,12 @@ export const ExpenseDetailModal: React.FC<ExpenseDetailModalProps> = ({
               {expense.isAcknowledgedByL3 ? (
                 <div className="text-xs text-emerald-700 font-semibold flex items-center space-x-1.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  <span>Acknowledged by Level 3 Supervisor on {new Date(expense.acknowledgedAt || '').toLocaleDateString('en-IN')}</span>
+                  <span>Acknowledged on {new Date(expense.acknowledgedAt || '').toLocaleDateString('en-IN')}</span>
                 </div>
               ) : (
                 <div className="text-xs text-amber-700 font-semibold flex items-center space-x-1.5">
                   <AlertTriangle className="w-4 h-4 text-amber-600" />
-                  <span>Pending Level 3 Acknowledgement</span>
+                  <span>Pending acknowledgement</span>
                 </div>
               )}
             </div>

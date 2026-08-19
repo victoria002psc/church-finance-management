@@ -38,8 +38,7 @@ export const TransactionTraceModal: React.FC<TransactionTraceModalProps> = ({
               <Search className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-bold text-base text-white">Full Transparency & Audit Trace (Rule 55)</h3>
-              <p className="text-xs text-slate-400">Complete answer to all 55 financial transparency questions</p>
+              <h3 className="font-bold text-base text-white">Transaction Details</h3>
             </div>
           </div>
           <button
@@ -55,14 +54,14 @@ export const TransactionTraceModal: React.FC<TransactionTraceModalProps> = ({
           <div className="bg-stone-50 border border-stone-200 rounded-xl p-4 flex items-center justify-between">
             <div>
               <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block">
-                Transaction Entity ID
+                Transaction ID
               </span>
               <span className="font-mono font-bold text-sm text-stone-900">{item.id}</span>
               <span className="text-[11px] text-stone-500 block">Type: {type}</span>
             </div>
             <div className="text-right">
               <span className="text-[10px] font-bold text-stone-500 uppercase tracking-wider block">
-                Authoritative Amount
+                Amount
               </span>
               <span className="font-mono font-black text-xl text-emerald-700">
                 ₹{item.amount?.toLocaleString('en-IN')}
@@ -74,7 +73,7 @@ export const TransactionTraceModal: React.FC<TransactionTraceModalProps> = ({
           <div className="space-y-2">
             <h4 className="font-bold text-stone-900 uppercase text-[11px] tracking-wider flex items-center space-x-1.5">
               <ShieldCheck className="w-4 h-4 text-emerald-600" />
-              <span>Authoritative Financial Origin & Destination Answers</span>
+              <span>Details</span>
             </h4>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -96,7 +95,7 @@ export const TransactionTraceModal: React.FC<TransactionTraceModalProps> = ({
 
               {/* Q3: To whom? */}
               <div className="bg-stone-50 p-2.5 rounded-lg border border-stone-200">
-                <span className="text-stone-500 font-semibold block text-[10px]">3. To whom? (Receiver / Beneficiary)</span>
+                <span className="text-stone-500 font-semibold block text-[10px]">3. To whom?</span>
                 <span className="font-bold text-stone-900">
                   {item.receiverL4Name || item.toL3Name || item.requesterName || item.personL4Name || 'Zonal Operation'}
                 </span>
@@ -104,7 +103,7 @@ export const TransactionTraceModal: React.FC<TransactionTraceModalProps> = ({
 
               {/* Q4: Why was it given? */}
               <div className="bg-stone-50 p-2.5 rounded-lg border border-stone-200">
-                <span className="text-stone-500 font-semibold block text-[10px]">4. Why was it given / Purpose?</span>
+                <span className="text-stone-500 font-semibold block text-[10px]">4. Purpose</span>
                 <span className="font-medium text-stone-800">
                   {item.purpose || item.remarks || item.description || 'Field operations'}
                 </span>
@@ -144,14 +143,7 @@ export const TransactionTraceModal: React.FC<TransactionTraceModalProps> = ({
             </div>
           </div>
 
-          {/* Audit Verification Note */}
-          <div className="bg-emerald-50 border border-emerald-200 p-3 rounded-lg flex items-start space-x-2 text-[11px] text-emerald-900">
-            <CheckCircle className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
-            <div>
-              <strong className="font-semibold">Complete Auditability Maintained: </strong>
-              <span>This transaction is permanently recorded in the immutable audit log. Even if cancelled or reversed, previous and new values remain fully reconstructible.</span>
-            </div>
-          </div>
+
 
           {/* Footer */}
           <div className="pt-3 border-t border-stone-200 flex justify-end">
@@ -159,7 +151,7 @@ export const TransactionTraceModal: React.FC<TransactionTraceModalProps> = ({
               onClick={onClose}
               className="px-4 py-2 bg-stone-900 hover:bg-stone-800 text-white text-xs font-bold rounded-lg transition-colors"
             >
-              Close Transparency Trace
+              Close
             </button>
           </div>
         </div>

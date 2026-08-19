@@ -101,7 +101,7 @@ export const MultiSourceExpenseModal: React.FC<MultiSourceExpenseModalProps> = (
             </div>
             <div>
               <h3 className="font-bold text-base text-white">Multi-Source Expense Allocation</h3>
-              <p className="text-xs text-slate-400">Rule 27 & 28: Use the Higher Available Source First</p>
+              <p className="text-xs text-slate-400">Expense split across sources</p>
             </div>
           </div>
           <button
@@ -157,7 +157,7 @@ export const MultiSourceExpenseModal: React.FC<MultiSourceExpenseModalProps> = (
             <div className="flex items-center justify-between text-xs font-bold text-slate-800 uppercase tracking-wider">
               <span className="flex items-center space-x-1.5">
                 <Calculator className="w-3.5 h-3.5 text-emerald-600" />
-                <span>Deterministic Source Allocation Breakdown</span>
+                <span>Source Allocation</span>
               </span>
               <span className="text-[10px] text-emerald-700 font-semibold bg-emerald-100 px-2 py-0.5 rounded">
                 Higher Source First
@@ -170,7 +170,7 @@ export const MultiSourceExpenseModal: React.FC<MultiSourceExpenseModalProps> = (
                   <div>
                     <span className="font-semibold text-slate-800 block text-[11.5px]">{src.fundName}</span>
                     <span className="text-[10.5px] text-slate-500">
-                      Prior Avail: ₹{src.availableAmount.toLocaleString('en-IN')} &rarr; Remaining: <strong className="font-mono text-slate-700">₹{src.newAvailable.toLocaleString('en-IN')}</strong>
+                      Available: ₹{src.availableAmount.toLocaleString('en-IN')} → After: <strong className="font-mono text-slate-700">₹{src.newAvailable.toLocaleString('en-IN')}</strong>
                     </span>
                   </div>
                   <div className="text-right">
@@ -254,7 +254,7 @@ export const MultiSourceExpenseModal: React.FC<MultiSourceExpenseModalProps> = (
                   : 'bg-emerald-600 hover:bg-emerald-500'
               }`}
             >
-              {isSubmitting ? 'Recording...' : `Record Multi-Source ₹${numAmount.toLocaleString('en-IN')}`}
+              {isSubmitting ? 'Recording...' : `Record Expense ₹${numAmount.toLocaleString('en-IN')}`}
             </button>
           </div>
         </form>

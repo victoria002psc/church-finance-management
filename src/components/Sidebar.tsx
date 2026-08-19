@@ -42,7 +42,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       label: 'Money & Sources',
       icon: ArrowLeftRight,
       badge: null,
-      sublabel: 'Received, Given, Source Balances',
+      sublabel: 'Received, Given, Balances',
     },
     {
       id: 'requests',
@@ -57,7 +57,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       label: 'Level 4 Team',
       icon: Users,
       badge: null,
-      sublabel: 'Managed People & Allocations',
+      sublabel: 'People & Allocations',
     },
     {
       id: 'expenses',
@@ -67,7 +67,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         ? (unacknowledgedExpensesCount + ocrMismatchesCount) 
         : null,
       badgeColor: ocrMismatchesCount > 0 ? 'bg-[#E11D48] text-white' : 'bg-[#F59E0B] text-[#24152F]',
-      sublabel: 'Bills, Vouchers, OCR Discrepancies',
+      sublabel: 'Bills, Vouchers & OCR',
     },
     {
       id: 'reconciliation',
@@ -75,21 +75,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
       icon: Scale,
       badge: bankDifferencesCount > 0 ? 'Diff' : null,
       badgeColor: 'bg-[#F59E0B] text-[#24152F]',
-      sublabel: 'System vs Bank Statement',
+      sublabel: 'Bank vs System',
     },
     {
       id: 'audit',
       label: 'Audit & Trace',
       icon: History,
       badge: null,
-      sublabel: 'Complete Transaction History',
+      sublabel: 'Activity History',
     },
     {
       id: 'reports',
       label: 'Export Reports',
       icon: FileSpreadsheet,
       badge: null,
-      sublabel: 'PDF & Excel Ledger Statement',
+      sublabel: 'Reports & Statements',
     },
   ];
 
@@ -98,10 +98,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       <div className="space-y-6">
         {/* Module Title */}
         <div className="px-5">
-          <div className="text-[10px] uppercase font-bold tracking-wider text-[#F4E7B5]/60">
-            Navigation Menu
-          </div>
-          <div className="text-xs font-semibold text-[#F4E7B5] mt-0.5">
+          <div className="text-xs font-semibold text-[#F4E7B5]">
             Level 3 Overseer Portal
           </div>
         </div>

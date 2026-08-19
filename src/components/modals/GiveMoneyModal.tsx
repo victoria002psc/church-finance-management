@@ -69,7 +69,7 @@ export const GiveMoneyModal: React.FC<GiveMoneyModalProps> = ({
     }
     if (isOverdrawn) {
       setErrorMsg(
-        `Amount ₹${numAmount.toLocaleString('en-IN')} exceeds available balance in ${selectedSource?.sourceL2Name} (₹${selectedSource?.availableAmount.toLocaleString('en-IN')}). Overdraft is not permitted without explicit business approval.`
+        `Amount ₹${numAmount.toLocaleString('en-IN')} exceeds available balance in ${selectedSource?.sourceL2Name} (₹${selectedSource?.availableAmount.toLocaleString('en-IN')}).`
       );
       return;
     }
@@ -103,7 +103,7 @@ export const GiveMoneyModal: React.FC<GiveMoneyModalProps> = ({
             </div>
             <div>
               <h3 className="font-bold text-base text-white">Give Money (Level 3 &rarr; Level 4)</h3>
-              <p className="text-xs text-slate-400">Authoritative disbursement with preserved source origin</p>
+              <p className="text-xs text-slate-400">Send money to a team member</p>
             </div>
           </div>
           <button
@@ -120,7 +120,6 @@ export const GiveMoneyModal: React.FC<GiveMoneyModalProps> = ({
             <div className="bg-rose-50 border border-rose-200 rounded-lg p-3 flex items-start space-x-2.5 text-xs text-rose-800">
               <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5" />
               <div>
-                <strong className="font-semibold">Transaction Error: </strong>
                 <span>{errorMsg}</span>
               </div>
             </div>
@@ -129,7 +128,7 @@ export const GiveMoneyModal: React.FC<GiveMoneyModalProps> = ({
           {/* Recipient */}
           <div>
             <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
-              1. Recipient (Level 4 Person) <span className="text-rose-500">*</span>
+              Recipient <span className="text-rose-500">*</span>
             </label>
             <select
               id="give-money-recipient"
@@ -151,7 +150,7 @@ export const GiveMoneyModal: React.FC<GiveMoneyModalProps> = ({
             {/* Amount */}
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
-                2. Amount (₹) <span className="text-rose-500">*</span>
+                Amount (₹) <span className="text-rose-500">*</span>
               </label>
               <div className="relative">
                 <span className="absolute left-3 top-2 text-stone-400 font-bold text-sm">₹</span>
@@ -172,7 +171,7 @@ export const GiveMoneyModal: React.FC<GiveMoneyModalProps> = ({
             {/* Source Balance */}
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
-                3. Source Balance (Level 2) <span className="text-rose-500">*</span>
+                Source <span className="text-rose-500">*</span>
               </label>
               <select
                 id="give-money-source"
@@ -222,7 +221,7 @@ export const GiveMoneyModal: React.FC<GiveMoneyModalProps> = ({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
-                4. Category <span className="text-rose-500">*</span>
+                Category <span className="text-rose-500">*</span>
               </label>
               <select
                 id="give-money-category"
@@ -241,7 +240,7 @@ export const GiveMoneyModal: React.FC<GiveMoneyModalProps> = ({
 
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
-                5. Event (Optional)
+                Event (Optional)
               </label>
               <select
                 id="give-money-event"
@@ -262,7 +261,7 @@ export const GiveMoneyModal: React.FC<GiveMoneyModalProps> = ({
           {/* Purpose / Remarks */}
           <div>
             <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
-              6. Purpose & Remarks
+              Purpose
             </label>
             <textarea
               id="give-money-purpose"
@@ -274,13 +273,7 @@ export const GiveMoneyModal: React.FC<GiveMoneyModalProps> = ({
             />
           </div>
 
-          {/* Trace summary */}
-          <div className="bg-stone-100 p-3 rounded-lg border border-stone-200 text-[11px] text-stone-600 flex items-center space-x-2">
-            <ShieldAlert className="w-4 h-4 text-amber-600 flex-shrink-0" />
-            <span>
-              This movement will be logged in the immutable audit trail with source allocation retained.
-            </span>
-          </div>
+
 
           {/* Actions */}
           <div className="pt-3 border-t border-stone-200 flex items-center justify-end space-x-3">

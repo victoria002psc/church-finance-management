@@ -86,7 +86,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
       amount: 12000, 
       recentDisbursement: 15000,
       totalDisbursed: 25000,
-      lastDisbursed: '2026-08-10',
+      lastDisbursed: '10 Aug 2026',
       lastPurpose: 'Parish Youth Camp Equipment & Tent Supplies'
     },
     { 
@@ -96,7 +96,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
       amount: 6500, 
       recentDisbursement: 10000,
       totalDisbursed: 20000,
-      lastDisbursed: '2026-08-14',
+      lastDisbursed: '14 Aug 2026',
       lastPurpose: 'Community Feeding Outreach Supplies'
     },
   ]);
@@ -113,7 +113,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
       taskTitle: 'Parish Sanitation & Water Supply Restoration',
       allocatedAmount: 8500,
       instructions: 'Procure water purification units and hire plumbing technicians for parish hall sanitation.',
-      assignedDate: '2026-08-15',
+      assignedDate: '15 Aug 2026',
       progressPercent: 65,
       status: 'IN_PROGRESS',
     },
@@ -123,7 +123,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
       taskTitle: 'Youth Camp Medical First-Aid Kit Assembly',
       allocatedAmount: 4000,
       instructions: 'Purchase certified medical kits and emergency supplies for incoming camp delegates.',
-      assignedDate: '2026-08-12',
+      assignedDate: '12 Aug 2026',
       progressPercent: 100,
       status: 'COMPLETED',
     },
@@ -144,8 +144,8 @@ export const Level4App: React.FC<Level4AppProps> = ({
       eventId: 'evt-camp-2026',
       eventName: 'Parish Youth Camp 2026',
       status: 'MONEY_GIVEN',
-      requestedAt: '2026-08-10',
-      date: '2026-08-10',
+      requestedAt: '10 Aug 2026',
+      date: '10 Aug 2026',
       createdAt: '2026-08-10T10:00:00Z',
     },
     {
@@ -159,8 +159,8 @@ export const Level4App: React.FC<Level4AppProps> = ({
       purpose: 'Community Feeding Outreach Supplies',
       categoryName: 'Community Feeding & Social Service',
       status: 'APPROVED',
-      requestedAt: '2026-08-14',
-      date: '2026-08-14',
+      requestedAt: '14 Aug 2026',
+      date: '14 Aug 2026',
       createdAt: '2026-08-14T14:30:00Z',
     },
     {
@@ -174,8 +174,8 @@ export const Level4App: React.FC<Level4AppProps> = ({
       purpose: 'Emergency Sanitation Maintenance',
       categoryName: 'Building & Maintenance Supplies',
       status: 'REQUESTED',
-      requestedAt: '2026-08-17',
-      date: '2026-08-17',
+      requestedAt: '17 Aug 2026',
+      date: '17 Aug 2026',
       createdAt: '2026-08-17T09:15:00Z',
     },
   ]);
@@ -201,7 +201,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
       ocrResult: {
         extractedAmount: 12500,
         extractedVendor: 'Soundcraft Rentals & Tent Supplies',
-        extractedDate: '2026-08-12',
+        extractedDate: '12 Aug 2026',
         extractedInvoiceNo: 'INV-88902',
         rawTextPreview: 'INVOICE INV-88902 - Soundcraft Rentals - Total: ₹12,500',
         isMismatch: false,
@@ -212,7 +212,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
       acknowledgedByL3: true,
       isAcknowledgedByL3: true,
       acknowledgedByName: 'Rev. Dr. Thomas Vance',
-      date: '2026-08-12',
+      date: '12 Aug 2026',
       sourceAllocations: [
         { sourceL3Id: 'src-l3a', sourceL3Name: 'Rev. Dr. Thomas Vance (Region A Treasury)', amount: 12500 },
       ],
@@ -237,7 +237,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
       ocrResult: {
         extractedAmount: 14000,
         extractedVendor: 'City Caterers & Bus Transport',
-        extractedDate: '2026-08-16',
+        extractedDate: '16 Aug 2026',
         extractedInvoiceNo: 'BILL-4410',
         rawTextPreview: 'BILL-4410 - City Caterers - Amount Paid: ₹14,000',
         isMismatch: false,
@@ -247,7 +247,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
       ocrMatchStatus: 'MATCHED',
       acknowledgedByL3: false,
       isAcknowledgedByL3: false,
-      date: '2026-08-16',
+      date: '16 Aug 2026',
       sourceAllocations: [
         { sourceL3Id: 'src-l3b', sourceL3Name: 'Rev. Sarah Jenkins (Central Mission Fund)', amount: 14000 },
       ],
@@ -301,8 +301,8 @@ export const Level4App: React.FC<Level4AppProps> = ({
       eventId: requestEvent !== 'none' ? requestEvent : undefined,
       eventName: eventObj && eventObj.id !== 'none' ? eventObj.name : undefined,
       status: 'REQUESTED',
-      requestedAt: new Date().toISOString().split('T')[0],
-      date: new Date().toISOString().split('T')[0],
+      requestedAt: '18 Aug 2026',
+      date: '18 Aug 2026',
       createdAt: new Date().toISOString(),
     };
 
@@ -343,7 +343,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
       ocrResult: expenseDocAttached ? {
         extractedAmount: amountNum,
         extractedVendor: 'Parish Field Vendor',
-        extractedDate: new Date().toISOString().split('T')[0],
+        extractedDate: '18 Aug 2026',
         extractedInvoiceNo: expenseVoucher.trim() || `INV-${Date.now()}`,
         rawTextPreview: `Parsed Bill - Amount: ₹${amountNum.toLocaleString('en-IN')}`,
         isMismatch: false,
@@ -354,7 +354,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
       acknowledgedByL3: false,
       isAcknowledgedByL3: false,
       acknowledgedByName: ackObj?.name,
-      date: new Date().toISOString().split('T')[0],
+      date: '18 Aug 2026',
       sourceAllocations: [
         { sourceL3Id: 'src-l3a', sourceL3Name: sourceBalances[0]?.l3Name || 'Level 3 Source', amount: amountNum },
       ],
@@ -373,7 +373,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
   const pendingExpensesCount = expenses.filter((e) => !e.acknowledgedByL3).length;
 
   return (
-    <div id="level4-app-root" className="min-h-screen bg-[#F4F1EA] text-[#171717] flex flex-col font-sans antialiased">
+    <div id="level4-app-root" className="min-h-screen bg-[#F6F4EE] text-[#171717] flex flex-col font-sans antialiased">
       
       {/* HEADER BAR */}
       <header className="border-b border-[#30203D] bg-[#24152F] px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-40 shadow-xs">
@@ -437,7 +437,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
         />
 
         {/* MAIN WORKSPACE VIEW ROUTING */}
-        <main className="flex-1 p-4 sm:p-5 min-w-0 overflow-y-auto bg-[#F4F1EA] space-y-4">
+        <main className="flex-1 p-4 sm:p-5 min-w-0 overflow-y-auto bg-[#F6F4EE] space-y-4">
         
         {/* VIEW 1: WALLET & WORKSPACE OVERVIEW */}
         {activeTab === 'workspace' && (
@@ -445,7 +445,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
             
             {/* SECTION 1 — ENTERPRISE FINANCIAL METRICS */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div className="bg-white border border-[#E0D9CC] rounded-xl p-4 shadow-2xs flex flex-col justify-between">
+              <div className="bg-white border border-[#E2DDD3] rounded-xl p-4 shadow-2xs flex flex-col justify-between">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-bold text-[#5F6368] uppercase tracking-wider">Available Funds</span>
                   <button
@@ -462,7 +462,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                 <div className="text-[10px] text-[#5F6368] font-medium mt-1">Ready for field deployment</div>
               </div>
 
-              <div className="bg-white border border-[#E0D9CC] rounded-xl p-4 shadow-2xs flex flex-col justify-between">
+              <div className="bg-white border border-[#E2DDD3] rounded-xl p-4 shadow-2xs flex flex-col justify-between">
                 <span className="text-[10px] font-bold text-[#5F6368] uppercase tracking-wider">Total Received</span>
                 <div className="text-[26px] font-extrabold text-[#009E68] font-mono tracking-tight mt-1.5 tabular-nums">
                   ₹{myTotalReceived.toLocaleString('en-IN')}
@@ -470,7 +470,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                 <div className="text-[10px] text-[#5F6368] font-medium mt-1">Disbursed by Supervising Overseers</div>
               </div>
 
-              <div className="bg-white border border-[#E0D9CC] rounded-xl p-4 shadow-2xs flex flex-col justify-between">
+              <div className="bg-white border border-[#E2DDD3] rounded-xl p-4 shadow-2xs flex flex-col justify-between">
                 <span className="text-[10px] font-bold text-[#5F6368] uppercase tracking-wider">Total Spent</span>
                 <div className="text-[26px] font-extrabold text-[#171717] font-mono tracking-tight mt-1.5 tabular-nums">
                   ₹{myTotalSpent.toLocaleString('en-IN')}
@@ -479,8 +479,8 @@ export const Level4App: React.FC<Level4AppProps> = ({
               </div>
             </div>
 
-            {/* SECTION 2 — PENDING ACTION BANNERS */}
-            <div className="bg-white border border-[#E0D9CC] rounded-xl p-4 shadow-2xs space-y-2.5">
+            {/* SECTION 2 — ACTION CENTER (NEEDS ATTENTION) */}
+            <div className="bg-white border border-[#E2DDD3] rounded-xl p-4 shadow-2xs space-y-2.5">
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-bold text-[#171717] uppercase tracking-wider flex items-center space-x-1.5">
                   <AlertCircle className="w-4 h-4 text-[#2563EB]" />
@@ -494,7 +494,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
                 <button
                   onClick={() => setActiveTab('requests')}
-                  className="p-3 bg-[#F7F5F0] hover:bg-[#EFE7D8] border border-[#E0D9CC] rounded-xl text-left flex items-center space-x-3 transition-colors cursor-pointer"
+                  className="p-3 bg-[#F7F5F0] hover:bg-[#EFE7D8] border border-[#E2DDD3] rounded-xl text-left flex items-center space-x-3 transition-colors cursor-pointer"
                 >
                   <div className="w-2.5 h-2.5 rounded-full bg-[#D97706] flex-shrink-0"></div>
                   <div className="min-w-0">
@@ -505,7 +505,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
 
                 <button
                   onClick={() => setActiveTab('expenses')}
-                  className="p-3 bg-[#F7F5F0] hover:bg-[#EFE7D8] border border-[#E0D9CC] rounded-xl text-left flex items-center space-x-3 transition-colors cursor-pointer"
+                  className="p-3 bg-[#F7F5F0] hover:bg-[#EFE7D8] border border-[#E2DDD3] rounded-xl text-left flex items-center space-x-3 transition-colors cursor-pointer"
                 >
                   <div className="w-2.5 h-2.5 rounded-full bg-[#2563EB] flex-shrink-0"></div>
                   <div className="min-w-0">
@@ -514,7 +514,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                   </div>
                 </button>
 
-                <div className="p-3 bg-[#F7F5F0] border border-[#E0D9CC] rounded-xl flex items-center space-x-3">
+                <div className="p-3 bg-[#F7F5F0] border border-[#E2DDD3] rounded-xl flex items-center space-x-3">
                   <div className="w-2.5 h-2.5 rounded-full bg-[#009E68] flex-shrink-0"></div>
                   <div className="min-w-0">
                     <div className="font-bold text-[#171717] text-[11px] truncate">1 Assigned Task</div>
@@ -525,7 +525,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
             </div>
 
             {/* SECTION 3 — WORK & PROJECT ASSIGNMENTS */}
-            <div className="bg-white border border-[#E0D9CC] rounded-xl p-4 shadow-2xs space-y-3">
+            <div className="bg-white border border-[#E2DDD3] rounded-xl p-4 shadow-2xs space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-bold text-[#171717] uppercase tracking-wider flex items-center space-x-1.5">
                   <Sparkles className="w-4 h-4 text-[#D4AF37]" />
@@ -536,14 +536,14 @@ export const Level4App: React.FC<Level4AppProps> = ({
                 </span>
               </div>
 
-              <div className="divide-y divide-[#EBE6DD] border border-[#E0D9CC] rounded-xl overflow-hidden bg-[#F7F5F0]">
+              <div className="divide-y divide-[#EBE6DD] border border-[#E2DDD3] rounded-xl overflow-hidden bg-[#F7F5F0]">
                 {proactiveWorkAssignments.map((task) => (
                   <div key={task.id} className="p-3.5 hover:bg-white transition-colors flex items-center justify-between gap-3">
                     <div className="min-w-0 flex-1 space-y-1">
                       <div className="font-bold text-xs text-[#171717] truncate">{task.taskTitle}</div>
-                      <div className="text-[10px] text-[#5F6368] truncate">Assigned by {task.assignedByL3Name}</div>
+                      <div className="text-[10px] text-[#5F6368] truncate">Assigned by {task.assignedByL3Name} &bull; {task.assignedDate}</div>
                       
-                      {/* Subtle h-1 Progress Bar */}
+                      {/* Refined h-1 Progress Bar */}
                       <div className="w-full max-w-xs bg-[#E0D9CC] rounded-full h-1 mt-1 overflow-hidden">
                         <div 
                           className={`h-full rounded-full ${task.status === 'COMPLETED' ? 'bg-[#009E68]' : 'bg-[#2563EB]'}`}
@@ -568,7 +568,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
             </div>
 
             {/* SECTION 4 — RECENT FINANCIAL ACTIVITY */}
-            <div className="bg-white border border-[#E0D9CC] rounded-xl p-4 shadow-2xs space-y-3">
+            <div className="bg-white border border-[#E2DDD3] rounded-xl p-4 shadow-2xs space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-xs font-bold text-[#171717] uppercase tracking-wider flex items-center space-x-1.5">
                   <Activity className="w-4 h-4 text-[#009E68]" />
@@ -596,7 +596,9 @@ export const Level4App: React.FC<Level4AppProps> = ({
                     </div>
                     <div className="text-right flex-shrink-0 font-mono tabular-nums">
                       <div className="font-extrabold text-[#009E68]">₹{req.amount.toLocaleString('en-IN')}</div>
-                      <div className="text-[9px] font-bold text-[#2563EB]">{req.status}</div>
+                      <div className="text-[9px] font-bold text-[#2563EB]">
+                        {req.status === 'MONEY_GIVEN' ? 'Money Given' : req.status === 'APPROVED' ? 'Approved' : 'Requested'}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -624,7 +626,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
             </div>
 
             {/* SECTION 5 — LIGHTWEIGHT QUICK WORKER ACTION TILES */}
-            <div className="bg-white border border-[#E0D9CC] rounded-xl p-4 shadow-2xs space-y-2.5">
+            <div className="bg-white border border-[#E2DDD3] rounded-xl p-4 shadow-2xs space-y-2.5">
               <h3 className="text-xs font-bold text-[#171717] uppercase tracking-wider">Quick Worker Actions</h3>
               
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -679,7 +681,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
         {/* VIEW 2: REQUEST MONEY (Path A) */}
         {activeTab === 'requests' && (
           <div className="space-y-4 animate-in fade-in duration-150">
-            <div className="flex items-center justify-between bg-white border border-[#E0D9CC] p-4 rounded-xl shadow-2xs">
+            <div className="flex items-center justify-between bg-white border border-[#E2DDD3] p-4 rounded-xl shadow-2xs">
               <div>
                 <h3 className="font-bold text-sm text-[#171717]">Money Requests</h3>
                 <p className="text-[11px] text-[#5F6368]">Funding requests submitted to supervising overseers</p>
@@ -695,29 +697,29 @@ export const Level4App: React.FC<Level4AppProps> = ({
 
             {/* SUMMARY STRIP */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
-              <div className="p-3 bg-white border border-[#E0D9CC] rounded-xl text-center shadow-2xs">
+              <div className="p-3 bg-white border border-[#E2DDD3] rounded-xl text-center shadow-2xs">
                 <div className="text-[10px] font-bold text-[#5F6368] uppercase">Total Requested</div>
                 <div className="text-base font-extrabold text-[#171717] font-mono mt-0.5 tabular-nums">₹30,000</div>
               </div>
-              <div className="p-3 bg-white border border-[#E0D9CC] rounded-xl text-center shadow-2xs">
+              <div className="p-3 bg-white border border-[#E2DDD3] rounded-xl text-center shadow-2xs">
                 <div className="text-[10px] font-bold text-[#5F6368] uppercase">Pending Approval</div>
                 <div className="text-base font-extrabold text-[#2563EB] mt-0.5">1</div>
               </div>
-              <div className="p-3 bg-white border border-[#E0D9CC] rounded-xl text-center shadow-2xs">
+              <div className="p-3 bg-white border border-[#E2DDD3] rounded-xl text-center shadow-2xs">
                 <div className="text-[10px] font-bold text-[#5F6368] uppercase">Approved (Pending Cash)</div>
                 <div className="text-base font-extrabold text-[#D97706] mt-0.5">1</div>
               </div>
-              <div className="p-3 bg-white border border-[#E0D9CC] rounded-xl text-center shadow-2xs">
+              <div className="p-3 bg-white border border-[#E2DDD3] rounded-xl text-center shadow-2xs">
                 <div className="text-[10px] font-bold text-[#5F6368] uppercase">Money Given</div>
                 <div className="text-base font-extrabold text-[#009E68] mt-0.5">1</div>
               </div>
             </div>
 
-            <div className="bg-white border border-[#E0D9CC] rounded-xl p-4 shadow-2xs space-y-3">
+            <div className="bg-white border border-[#E2DDD3] rounded-xl p-4 shadow-2xs space-y-3">
               <h4 className="text-[10px] font-bold text-[#5F6368] uppercase tracking-wider">Active & Recent Requests</h4>
               <div className="space-y-2.5">
                 {requests.map((req) => (
-                  <div key={req.id} className="p-3.5 bg-[#F7F5F0] border border-[#E0D9CC] rounded-xl space-y-2">
+                  <div key={req.id} className="p-3.5 bg-[#F7F5F0] border border-[#E2DDD3] rounded-xl space-y-2">
                     <div className="flex items-center justify-between gap-2">
                       <div>
                         <div className="font-bold text-xs text-[#171717]">{req.purpose}</div>
@@ -747,7 +749,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                       </div>
                       <button
                         onClick={() => setSelectedRequestDrawer(req)}
-                        className="ml-2 px-2 py-0.5 bg-white border border-[#E0D9CC] hover:bg-[#F7F5F0] rounded text-[9px] font-bold text-[#171717] cursor-pointer inline-flex items-center space-x-1"
+                        className="ml-2 px-2 py-0.5 bg-white border border-[#E2DDD3] hover:bg-[#F7F5F0] rounded text-[9px] font-bold text-[#171717] cursor-pointer inline-flex items-center space-x-1"
                       >
                         <Eye className="w-3 h-3" />
                         <span>Details</span>
@@ -763,7 +765,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
         {/* VIEW 3: RECORD EXPENSE (SAAS TABLE REFERENCE BENCHMARK) */}
         {activeTab === 'expenses' && (
           <div className="space-y-4 animate-in fade-in duration-150">
-            <div className="flex items-center justify-between bg-white border border-[#E0D9CC] p-4 rounded-xl shadow-2xs">
+            <div className="flex items-center justify-between bg-white border border-[#E2DDD3] p-4 rounded-xl shadow-2xs">
               <div>
                 <h3 className="font-bold text-sm text-[#171717]">Record Expense & Upload Receipts</h3>
                 <p className="text-[11px] text-[#5F6368]">Log parish expenditures, attach vouchers, and track overseer review</p>
@@ -779,21 +781,21 @@ export const Level4App: React.FC<Level4AppProps> = ({
 
             {/* SUMMARY STRIP */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
-              <div className="p-3 bg-white border border-[#E0D9CC] rounded-xl text-center shadow-2xs">
+              <div className="p-3 bg-white border border-[#E2DDD3] rounded-xl text-center shadow-2xs">
                 <div className="text-[10px] font-bold text-[#5F6368] uppercase">Total Recorded</div>
                 <div className="text-base font-extrabold text-[#171717] font-mono mt-0.5 tabular-nums">₹{myTotalSpent.toLocaleString('en-IN')}</div>
               </div>
-              <div className="p-3 bg-white border border-[#E0D9CC] rounded-xl text-center shadow-2xs">
+              <div className="p-3 bg-white border border-[#E2DDD3] rounded-xl text-center shadow-2xs">
                 <div className="text-[10px] font-bold text-[#5F6368] uppercase">Acknowledged</div>
                 <div className="text-base font-extrabold text-[#009E68] mt-0.5">1</div>
               </div>
-              <div className="p-3 bg-white border border-[#E0D9CC] rounded-xl text-center shadow-2xs">
+              <div className="p-3 bg-white border border-[#E2DDD3] rounded-xl text-center shadow-2xs">
                 <div className="text-[10px] font-bold text-[#5F6368] uppercase">Pending Overseer Review</div>
                 <div className="text-base font-extrabold text-[#D97706] mt-0.5">1</div>
               </div>
             </div>
 
-            <div className="bg-white border border-[#E0D9CC] rounded-xl p-4 shadow-2xs space-y-3">
+            <div className="bg-white border border-[#E2DDD3] rounded-xl p-4 shadow-2xs space-y-3">
               <h4 className="text-[10px] font-bold text-[#5F6368] uppercase tracking-wider">Submitted Expense Vouchers</h4>
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
@@ -842,14 +844,14 @@ export const Level4App: React.FC<Level4AppProps> = ({
         {/* VIEW 4: MONEY STATUS (TIMELINE FEED) */}
         {activeTab === 'timeline' && (
           <div className="space-y-4 animate-in fade-in duration-150">
-            <div className="bg-white border border-[#E0D9CC] p-4 rounded-xl shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="bg-white border border-[#E2DDD3] p-4 rounded-xl shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 <h3 className="font-bold text-sm text-[#171717]">Money Status</h3>
                 <p className="text-[11px] text-[#5F6368]">Recent money activity, requests, disbursements, and expenses</p>
               </div>
 
               {/* Segmented Filter Control */}
-              <div className="flex items-center space-x-1 bg-[#F7F5F0] p-1 border border-[#E0D9CC] rounded-lg text-[10px] font-bold">
+              <div className="flex items-center space-x-1 bg-[#F7F5F0] p-1 border border-[#E2DDD3] rounded-lg text-[10px] font-bold">
                 {(['all', 'requests', 'disbursements', 'expenses'] as const).map(f => (
                   <button
                     key={f}
@@ -866,25 +868,25 @@ export const Level4App: React.FC<Level4AppProps> = ({
 
             {/* SUMMARY STRIP */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
-              <div className="p-2.5 bg-white border border-[#E0D9CC] rounded-xl text-center shadow-2xs">
+              <div className="p-2.5 bg-white border border-[#E2DDD3] rounded-xl text-center shadow-2xs">
                 <div className="text-[9px] font-bold text-[#5F6368] uppercase">Requested</div>
                 <div className="text-sm font-extrabold text-[#171717] font-mono mt-0.5 tabular-nums">₹30,000</div>
               </div>
-              <div className="p-2.5 bg-white border border-[#E0D9CC] rounded-xl text-center shadow-2xs">
+              <div className="p-2.5 bg-white border border-[#E2DDD3] rounded-xl text-center shadow-2xs">
                 <div className="text-[9px] font-bold text-[#5F6368] uppercase">Approved</div>
                 <div className="text-sm font-extrabold text-[#D97706] font-mono mt-0.5 tabular-nums">₹10,000</div>
               </div>
-              <div className="p-2.5 bg-white border border-[#E0D9CC] rounded-xl text-center shadow-2xs">
+              <div className="p-2.5 bg-white border border-[#E2DDD3] rounded-xl text-center shadow-2xs">
                 <div className="text-[9px] font-bold text-[#5F6368] uppercase">Money Given</div>
                 <div className="text-sm font-extrabold text-[#009E68] font-mono mt-0.5 tabular-nums">₹15,000</div>
               </div>
-              <div className="p-2.5 bg-white border border-[#E0D9CC] rounded-xl text-center shadow-2xs">
+              <div className="p-2.5 bg-white border border-[#E2DDD3] rounded-xl text-center shadow-2xs">
                 <div className="text-[9px] font-bold text-[#5F6368] uppercase">Expenses</div>
                 <div className="text-sm font-extrabold text-[#171717] font-mono mt-0.5 tabular-nums">₹26,500</div>
               </div>
             </div>
 
-            <div className="bg-white border border-[#E0D9CC] rounded-xl p-4 shadow-2xs">
+            <div className="bg-white border border-[#E2DDD3] rounded-xl p-4 shadow-2xs">
               <div className="divide-y divide-[#EBE6DD]">
                 {(activityFilter === 'all' || activityFilter === 'requests' || activityFilter === 'disbursements') && requests.map(req => (
                   <div key={`tl-${req.id}`} className="py-3 flex items-center justify-between gap-3">
@@ -897,7 +899,9 @@ export const Level4App: React.FC<Level4AppProps> = ({
                     </div>
                     <div className="text-right flex-shrink-0 font-mono tabular-nums">
                       <div className="font-extrabold text-xs text-[#009E68]">₹{req.amount.toLocaleString('en-IN')}</div>
-                      <div className="text-[10px] font-bold text-[#2563EB]">{req.status}</div>
+                      <div className="text-[10px] font-bold text-[#2563EB]">
+                        {req.status === 'MONEY_GIVEN' ? 'Money Given' : req.status === 'APPROVED' ? 'Approved' : 'Requested'}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -924,10 +928,10 @@ export const Level4App: React.FC<Level4AppProps> = ({
           </div>
         )}
 
-        {/* VIEW 5: MY SOURCES (FUND ACCOUNT CARDS & BALANCE BARS) */}
+        {/* VIEW 5: MY SOURCES (FUND ACCOUNT CARDS & UTILIZATION BARS) */}
         {activeTab === 'sources' && (
           <div className="space-y-4 animate-in fade-in duration-150">
-            <div className="bg-white border border-[#E0D9CC] p-4 rounded-xl shadow-2xs flex items-center justify-between">
+            <div className="bg-white border border-[#E2DDD3] p-4 rounded-xl shadow-2xs flex items-center justify-between">
               <div>
                 <h3 className="font-bold text-sm text-[#171717]">My Sources</h3>
                 <p className="text-[11px] text-[#5F6368]">Fund providers and current available balances</p>
@@ -943,7 +947,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
 
             {/* SOURCE SUMMARY STRIP */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <div className="p-3.5 bg-white border border-[#E0D9CC] rounded-xl flex items-center justify-between shadow-2xs">
+              <div className="p-3.5 bg-white border border-[#E2DDD3] rounded-xl flex items-center justify-between shadow-2xs">
                 <div>
                   <div className="text-[10px] font-bold text-[#5F6368] uppercase">Total Available Balance</div>
                   <div className="text-xl font-extrabold text-[#009E68] font-mono mt-0.5 tabular-nums">₹{myAvailableBalance.toLocaleString('en-IN')}</div>
@@ -951,7 +955,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                 <span className="px-2 py-1 rounded bg-[#009E68]/10 text-[#009E68] text-[10px] font-bold border border-[#009E68]/30">2 Active Sources</span>
               </div>
 
-              <div className="p-3.5 bg-white border border-[#E0D9CC] rounded-xl flex items-center justify-between shadow-2xs">
+              <div className="p-3.5 bg-white border border-[#E2DDD3] rounded-xl flex items-center justify-between shadow-2xs">
                 <div>
                   <div className="text-[10px] font-bold text-[#5F6368] uppercase">Total Funds Received</div>
                   <div className="text-xl font-extrabold text-[#171717] font-mono mt-0.5 tabular-nums">₹{myTotalReceived.toLocaleString('en-IN')}</div>
@@ -960,12 +964,12 @@ export const Level4App: React.FC<Level4AppProps> = ({
               </div>
             </div>
 
-            {/* FUND ACCOUNT CARDS WITH BALANCE UTILIZATION BARS */}
+            {/* FUND ACCOUNT CARDS WITH UTILIZATION BARS */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {sourceBalances.map(src => {
                 const ratio = Math.min(100, Math.round((src.amount / src.recentDisbursement) * 100));
                 return (
-                  <div key={src.id} className="p-4 bg-white border border-[#E0D9CC] rounded-xl space-y-3 shadow-2xs">
+                  <div key={src.id} className="p-4 bg-white border border-[#E2DDD3] rounded-xl space-y-3 shadow-2xs">
                     <div className="flex items-start justify-between">
                       <div>
                         <div className="font-bold text-xs text-[#171717]">{src.l3Name}</div>
@@ -977,7 +981,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                       </div>
                     </div>
 
-                    {/* Financial Utilization Progress Bar */}
+                    {/* Utilization Ratio Bar */}
                     <div className="space-y-1">
                       <div className="flex justify-between text-[10px] text-[#5F6368] font-semibold">
                         <span>Fund Utilization Ratio</span>
@@ -988,7 +992,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                       </div>
                     </div>
 
-                    <div className="p-2.5 bg-[#F7F5F0] border border-[#E0D9CC] rounded-lg space-y-1 text-[11px]">
+                    <div className="p-2.5 bg-[#F7F5F0] border border-[#E2DDD3] rounded-lg space-y-1 text-[11px]">
                       <div className="flex items-center justify-between text-[#5F6368]">
                         <span>Recent Disbursement:</span>
                         <strong className="text-[#171717] font-mono tabular-nums">₹{src.recentDisbursement.toLocaleString('en-IN')}</strong>
@@ -1007,7 +1011,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
             </div>
 
             {/* RECENT SOURCE ACTIVITY LOG */}
-            <div className="bg-white border border-[#E0D9CC] rounded-xl p-4 shadow-2xs space-y-3">
+            <div className="bg-white border border-[#E2DDD3] rounded-xl p-4 shadow-2xs space-y-3">
               <h4 className="text-[10px] font-bold text-[#5F6368] uppercase tracking-wider">Recent Source Activity Log</h4>
               <div className="divide-y divide-[#EBE6DD]">
                 {sourceBalances.map(src => (
@@ -1030,7 +1034,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
       {/* ALLOCATION POLICY MODAL */}
       {showAllocationPolicy && (
         <div className="fixed inset-0 bg-[#24152F]/70 backdrop-blur-xs flex items-center justify-center z-50 p-4">
-          <div className="bg-white border border-[#E0D9CC] rounded-3xl p-6 max-w-md w-full space-y-4 shadow-2xl">
+          <div className="bg-white border border-[#E2DDD3] rounded-3xl p-6 max-w-md w-full space-y-4 shadow-2xl">
             <div className="flex items-center justify-between border-b border-[#EBE6DD] pb-3">
               <h3 className="font-bold text-base text-[#171717]">Source Allocation Policy</h3>
               <button onClick={() => setShowAllocationPolicy(false)} className="text-[#7A7A7A] hover:text-[#171717] font-bold text-xs cursor-pointer">✕</button>
@@ -1065,7 +1069,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
 
             <div className="space-y-2">
               <h4 className="font-bold text-[#171717] text-xs uppercase tracking-wider">Workflow Breakdown</h4>
-              <div className="p-3 bg-[#F7F5F0] border border-[#E0D9CC] rounded-xl space-y-2 text-xs text-[#171717]">
+              <div className="p-3 bg-[#F7F5F0] border border-[#E2DDD3] rounded-xl space-y-2 text-xs text-[#171717]">
                 <div><span className="font-semibold">Requester:</span> {selectedRequestDrawer.requesterName}</div>
                 <div><span className="font-semibold">Target Level 3 Overseer:</span> {selectedRequestDrawer.recipientL3Name || 'Rev. Dr. Thomas Vance'}</div>
                 <div><span className="font-semibold">Current Status:</span> <strong className="text-[#2563EB]">{selectedRequestDrawer.status}</strong></div>
@@ -1079,7 +1083,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
       {/* REQUEST MONEY MODAL (Path A) */}
       {showRequestModal && (
         <div className="fixed inset-0 bg-[#24152F]/70 backdrop-blur-xs flex items-center justify-center z-50 p-4">
-          <div className="bg-white border border-[#E0D9CC] rounded-3xl p-6 max-w-md w-full space-y-4 shadow-2xl">
+          <div className="bg-white border border-[#E2DDD3] rounded-3xl p-6 max-w-md w-full space-y-4 shadow-2xl">
             <div className="flex items-center justify-between border-b border-[#EBE6DD] pb-3">
               <h3 className="font-bold text-base text-[#171717]">Request Money from Level 3</h3>
               <button onClick={() => setShowRequestModal(false)} className="text-[#7A7A7A] hover:text-[#171717] font-bold text-xs cursor-pointer">✕</button>
@@ -1091,7 +1095,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                 <select
                   value={requestTargetL3}
                   onChange={(e) => setRequestTargetL3(e.target.value)}
-                  className="w-full p-2.5 bg-white border border-[#E0D9CC] rounded-xl text-xs font-medium text-[#171717]"
+                  className="w-full p-2.5 bg-white border border-[#E2DDD3] rounded-xl text-xs font-medium text-[#171717]"
                   required
                 >
                   {availableL3Overseers.map(l3 => (
@@ -1105,7 +1109,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                 <select
                   value={requestEvent}
                   onChange={(e) => setRequestEvent(e.target.value)}
-                  className="w-full p-2.5 bg-white border border-[#E0D9CC] rounded-xl text-xs text-[#171717]"
+                  className="w-full p-2.5 bg-white border border-[#E2DDD3] rounded-xl text-xs text-[#171717]"
                 >
                   {configuredEvents.map(ev => (
                     <option key={ev.id} value={ev.id}>{ev.name}</option>
@@ -1118,7 +1122,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                 <select
                   value={requestCategory}
                   onChange={(e) => setRequestCategory(e.target.value)}
-                  className="w-full p-2.5 bg-white border border-[#E0D9CC] rounded-xl text-xs text-[#171717]"
+                  className="w-full p-2.5 bg-white border border-[#E2DDD3] rounded-xl text-xs text-[#171717]"
                   required
                 >
                   {configuredCategories.map(cat => (
@@ -1136,7 +1140,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                   value={requestAmount}
                   onChange={(e) => setRequestAmount(e.target.value)}
                   placeholder="5000"
-                  className="w-full p-2.5 bg-white border border-[#E0D9CC] rounded-xl text-xs font-mono tabular-nums text-[#171717]"
+                  className="w-full p-2.5 bg-white border border-[#E2DDD3] rounded-xl text-xs font-mono tabular-nums text-[#171717]"
                 />
               </div>
 
@@ -1148,7 +1152,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                   value={requestPurpose}
                   onChange={(e) => setRequestPurpose(e.target.value)}
                   placeholder="e.g. Youth Camp Advance & Supplies"
-                  className="w-full p-2.5 bg-white border border-[#E0D9CC] rounded-xl text-xs text-[#171717]"
+                  className="w-full p-2.5 bg-white border border-[#E2DDD3] rounded-xl text-xs text-[#171717]"
                 />
               </div>
 
@@ -1175,7 +1179,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
       {/* ONE SIMPLE NEW EXPENSE SCREEN */}
       {showExpenseModal && (
         <div className="fixed inset-0 bg-[#24152F]/70 backdrop-blur-xs flex items-center justify-center z-50 p-4">
-          <div className="bg-white border border-[#E0D9CC] rounded-3xl p-6 max-w-lg w-full space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+          <div className="bg-white border border-[#E2DDD3] rounded-3xl p-6 max-w-lg w-full space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-[#EBE6DD] pb-3">
               <div>
                 <h3 className="font-bold text-base text-[#171717]">Record Parish Field Expense</h3>
@@ -1190,7 +1194,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                 <select
                   value={expensePerson}
                   onChange={(e) => setExpensePerson(e.target.value)}
-                  className="w-full p-2.5 bg-white border border-[#E0D9CC] rounded-xl text-xs font-medium text-[#171717]"
+                  className="w-full p-2.5 bg-white border border-[#E2DDD3] rounded-xl text-xs font-medium text-[#171717]"
                   required
                 >
                   <option value={currentUser.id}>{currentUser.name} ({currentUser.designation})</option>
@@ -1202,7 +1206,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                 <select
                   value={expenseEvent}
                   onChange={(e) => setExpenseEvent(e.target.value)}
-                  className="w-full p-2.5 bg-white border border-[#E0D9CC] rounded-xl text-xs text-[#171717]"
+                  className="w-full p-2.5 bg-white border border-[#E2DDD3] rounded-xl text-xs text-[#171717]"
                 >
                   {configuredEvents.map(ev => (
                     <option key={ev.id} value={ev.id}>{ev.name}</option>
@@ -1215,7 +1219,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                 <select
                   value={expenseCategory}
                   onChange={(e) => setExpenseCategory(e.target.value)}
-                  className="w-full p-2.5 bg-white border border-[#E0D9CC] rounded-xl text-xs text-[#171717]"
+                  className="w-full p-2.5 bg-white border border-[#E2DDD3] rounded-xl text-xs text-[#171717]"
                   required
                 >
                   {configuredCategories.map(cat => (
@@ -1233,7 +1237,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                   value={expenseAmount}
                   onChange={(e) => setExpenseAmount(e.target.value)}
                   placeholder="2500"
-                  className="w-full p-2.5 bg-white border border-[#E0D9CC] rounded-xl text-xs font-mono tabular-nums text-[#171717]"
+                  className="w-full p-2.5 bg-white border border-[#E2DDD3] rounded-xl text-xs font-mono tabular-nums text-[#171717]"
                 />
               </div>
 
@@ -1245,7 +1249,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                   value={expensePurpose}
                   onChange={(e) => setExpensePurpose(e.target.value)}
                   placeholder="e.g. Tent & Catering Expense"
-                  className="w-full p-2.5 bg-white border border-[#E0D9CC] rounded-xl text-xs text-[#171717]"
+                  className="w-full p-2.5 bg-white border border-[#E2DDD3] rounded-xl text-xs text-[#171717]"
                 />
               </div>
 
@@ -1256,11 +1260,11 @@ export const Level4App: React.FC<Level4AppProps> = ({
                   value={expenseVoucher}
                   onChange={(e) => setExpenseVoucher(e.target.value)}
                   placeholder="VOUCH-2026-99"
-                  className="w-full p-2.5 bg-white border border-[#E0D9CC] rounded-xl text-xs font-mono tabular-nums text-[#171717]"
+                  className="w-full p-2.5 bg-white border border-[#E2DDD3] rounded-xl text-xs font-mono tabular-nums text-[#171717]"
                 />
               </div>
 
-              <div className="p-3.5 bg-[#F7F5F0] border border-[#E0D9CC] rounded-xl space-y-2">
+              <div className="p-3.5 bg-[#F7F5F0] border border-[#E2DDD3] rounded-xl space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-[#171717]">Supporting Document / Bill Photo</span>
                   <label className="text-[11px] font-bold text-[#2563EB] hover:underline cursor-pointer flex items-center space-x-1">
@@ -1285,7 +1289,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                 <select
                   value={expenseAckTo}
                   onChange={(e) => setExpenseAckTo(e.target.value)}
-                  className="w-full p-2.5 bg-white border border-[#E0D9CC] rounded-xl text-xs font-medium text-[#171717]"
+                  className="w-full p-2.5 bg-white border border-[#E2DDD3] rounded-xl text-xs font-medium text-[#171717]"
                   required
                 >
                   {availableL3Overseers.map(l3 => (
@@ -1301,7 +1305,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
                   value={expenseRemarks}
                   onChange={(e) => setExpenseRemarks(e.target.value)}
                   placeholder="Additional notes for overseer review..."
-                  className="w-full p-2.5 bg-white border border-[#E0D9CC] rounded-xl text-xs text-[#171717]"
+                  className="w-full p-2.5 bg-white border border-[#E2DDD3] rounded-xl text-xs text-[#171717]"
                 />
               </div>
 
@@ -1326,7 +1330,7 @@ export const Level4App: React.FC<Level4AppProps> = ({
       )}
 
       {/* FOOTER */}
-      <footer className="border-t border-[#E0D9CC] bg-white py-3 text-center text-[11px] text-[#5F6368] font-medium">
+      <footer className="border-t border-[#E2DDD3] bg-white py-3 text-center text-[11px] text-[#5F6368] font-medium">
         Church Financial Management Platform &bull; Level 4 Task-First Field Operations Workspace
       </footer>
     </div>

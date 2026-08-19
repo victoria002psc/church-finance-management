@@ -71,8 +71,7 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
               </div>
               <div className="hidden lg:flex flex-col border-l border-[#24152F] pl-3 text-[11px] text-[#F4E7B5]">
-                <span className="text-[#F4E7B5]/60 text-[10px]">{(sourceBalances || []).length} L2 Sources</span>
-                <span className="text-[#D4AF37] font-mono">Isolated</span>
+                <span className="text-[#F4E7B5]/60 text-[10px]">{(sourceBalances || []).length} Sources</span>
               </div>
             </div>
 

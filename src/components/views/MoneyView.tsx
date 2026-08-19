@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { SourceBalance, MoneyGiven, MoneyReceived, User } from '../../types.ts';
+import { SourceBalance, MoneyReceived, MoneyGiven } from '../../types.ts';
 import { 
   ArrowLeftRight, 
   ArrowDownLeft, 
   ArrowUpRight, 
   Layers, 
-  Send, 
-  Search, 
-  Building, 
-  Clock, 
-  CheckCircle2, 
+  Eye, 
+  Info,
   Calendar,
-  ShieldCheck
+  Wallet,
+  ShieldCheck,
+  Building
 } from 'lucide-react';
+import { DetailDrawer } from '../common/DetailDrawer.tsx';
 
 interface MoneyViewProps {
   sourceBalances: SourceBalance[];
@@ -23,248 +23,237 @@ interface MoneyViewProps {
 }
 
 export const MoneyView: React.FC<MoneyViewProps> = ({
-  sourceBalances,
-  moneyReceivedList,
-  moneyGivenList,
+  sourceBalances = [],
+  moneyReceivedList = [],
+  moneyGivenList = [],
   onOpenGiveMoney,
   onOpenTrace,
 }) => {
-  const [subTab, setSubTab] = useState<'SOURCES' | 'RECEIVED' | 'GIVEN'>('SOURCES');
+  const [selectedSourceDrawer, setSelectedSourceDrawer] = useState<SourceBalance | null>(null);
 
-  const totalReceived = sourceBalances.reduce((sum, s) => sum + s.receivedAmount, 0);
-  const totalAllocated = sourceBalances.reduce((sum, s) => sum + s.allocatedAmount, 0);
-  const totalAvailable = sourceBalances.reduce((sum, s) => sum + s.availableAmount, 0);
+  const totalAvailable = (sourceBalances || []).reduce((sum, s) => sum + (s?.availableAmount ?? (s as any)?.available ?? 0), 0);
+  const totalReceived = (sourceBalances || []).reduce((sum, s) => sum + (s?.receivedAmount ?? (s as any)?.totalReceived ?? 0), 0);
+  const totalGiven = (sourceBalances || []).reduce((sum, s) => sum + (s?.allocatedAmount ?? (s as any)?.totalGiven ?? 0), 0);
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-200">
-      {/* Top Banner */}
-      <div className="bg-white rounded-2xl p-6 border border-stone-200 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div id="level3-money-view" className="space-y-4 animate-in fade-in duration-150">
+      
+      {/* HEADER BAR */}
+      <div className="bg-white border border-[#E7E2D8] rounded-xl p-4 sm:p-5 shadow-2xs flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
         <div>
-          <div className="flex items-center space-x-2 text-xs font-bold text-teal-700 uppercase tracking-wider mb-1">
-            <ArrowLeftRight className="w-4 h-4" />
-            <span>Authoritative Money Flows</span>
-          </div>
-          <h2 className="text-xl font-bold text-stone-900">
-            Source Balances & Money Movements
-          </h2>
-          <p className="text-xs text-stone-500 mt-1 max-w-xl">
-            Rules 6, 7 & 30: Preserves distinct Level 2 fund sources without permanent merging. Every rupee given to Level 4 is traceable to its original allocation.
+          <h1 className="text-lg sm:text-xl font-bold text-[#171717] tracking-tight">
+            Money & Sources
+          </h1>
+          <p className="text-xs text-[#5F6368] font-medium mt-0.5">
+            Received, given, and available balances
           </p>
         </div>
-
         <button
           onClick={onOpenGiveMoney}
-          className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-xl shadow-sm flex items-center space-x-2 self-start md:self-auto transition-all active:scale-98"
+          className="px-3.5 py-2 bg-[#D4AF37] hover:bg-[#F4E7B5] text-[#24152F] text-xs font-bold rounded-xl shadow-xs flex items-center space-x-2 transition-all cursor-pointer"
         >
-          <Send className="w-4 h-4" />
-          <span>Give Money to Level 4</span>
+          <ArrowUpRight className="w-4 h-4" />
+          <span>Give Money</span>
         </button>
       </div>
 
-      {/* Summary Stat Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white p-4.5 rounded-xl border border-stone-200 shadow-xs">
-          <div className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">Total Received (From L2)</div>
-          <div className="text-2xl font-black font-mono text-stone-900 mt-1">₹{totalReceived.toLocaleString('en-IN')}</div>
-          <div className="text-[11px] text-stone-400 mt-1">{sourceBalances.length} distinct Level 2 sources</div>
+      {/* KPI STRIP */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div className="bg-white border border-[#E7E2D8] rounded-xl p-4 shadow-2xs">
+          <div className="text-[10px] font-bold text-[#5F6368] uppercase tracking-wider">Available Balance</div>
+          <div className="text-2xl font-extrabold text-[#009E68] mt-1.5 font-mono tracking-tight tabular-nums">
+            ₹{totalAvailable.toLocaleString('en-IN')}
+          </div>
+          <div className="text-[10px] text-[#5F6368] font-medium mt-1">Across {(sourceBalances || []).length} sources</div>
         </div>
 
-        <div className="bg-white p-4.5 rounded-xl border border-stone-200 shadow-xs">
-          <div className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">Total Disbursed (To L4)</div>
-          <div className="text-2xl font-black font-mono text-stone-700 mt-1">₹{totalAllocated.toLocaleString('en-IN')}</div>
-          <div className="text-[11px] text-stone-400 mt-1">{moneyGivenList.length} completed disbursements</div>
+        <div className="bg-white border border-[#E7E2D8] rounded-xl p-4 shadow-2xs">
+          <div className="text-[10px] font-bold text-[#5F6368] uppercase tracking-wider">Total Received</div>
+          <div className="text-2xl font-extrabold text-[#2563EB] mt-1.5 font-mono tracking-tight tabular-nums">
+            ₹{totalReceived.toLocaleString('en-IN')}
+          </div>
+          <div className="text-[10px] text-[#5F6368] font-medium mt-1">From Level 2</div>
         </div>
 
-        <div className="bg-white p-4.5 rounded-xl border border-stone-200 shadow-xs">
-          <div className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">Total Available Balance</div>
-          <div className="text-2xl font-black font-mono text-emerald-700 mt-1">₹{totalAvailable.toLocaleString('en-IN')}</div>
-          <div className="text-[11px] text-emerald-600 font-medium mt-1">Authoritatively synced with sources</div>
+        <div className="bg-white border border-[#E7E2D8] rounded-xl p-4 shadow-2xs">
+          <div className="text-[10px] font-bold text-[#5F6368] uppercase tracking-wider">Total Given</div>
+          <div className="text-2xl font-extrabold text-[#F59E0B] mt-1.5 font-mono tracking-tight tabular-nums">
+            ₹{totalGiven.toLocaleString('en-IN')}
+          </div>
+          <div className="text-[10px] text-[#5F6368] font-medium mt-1">To Level 4 team</div>
         </div>
       </div>
 
-      {/* Subtabs Selector */}
-      <div className="flex border-b border-stone-200 space-x-4 text-xs font-bold">
-        <button
-          onClick={() => setSubTab('SOURCES')}
-          className={`pb-3 px-1 border-b-2 flex items-center space-x-2 transition-colors ${
-            subTab === 'SOURCES'
-              ? 'border-emerald-600 text-emerald-800'
-              : 'border-transparent text-stone-500 hover:text-stone-800'
-          }`}
-        >
-          <Layers className="w-4 h-4" />
-          <span>Level 2 Source Balances ({sourceBalances.length})</span>
-        </button>
+      {/* SECTION: WHERE THE MONEY CAME FROM (SOURCE CARDS) */}
+      <div className="bg-white border border-[#E7E2D8] rounded-xl p-4 shadow-2xs space-y-3">
+        <h2 className="text-xs font-bold text-[#171717] uppercase tracking-wider flex items-center space-x-1.5">
+          <Layers className="w-4 h-4 text-[#D4AF37]" />
+          <span>Where the Money Came From</span>
+        </h2>
 
-        <button
-          onClick={() => setSubTab('RECEIVED')}
-          className={`pb-3 px-1 border-b-2 flex items-center space-x-2 transition-colors ${
-            subTab === 'RECEIVED'
-              ? 'border-emerald-600 text-emerald-800'
-              : 'border-transparent text-stone-500 hover:text-stone-800'
-          }`}
-        >
-          <ArrowDownLeft className="w-4 h-4 text-emerald-600" />
-          <span>Money Received from Level 2 ({moneyReceivedList.length})</span>
-        </button>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {(sourceBalances || []).map((src) => {
+            const avail = src.availableAmount ?? (src as any).available ?? 0;
+            const rec = src.receivedAmount ?? (src as any).totalReceived ?? 0;
+            const given = src.allocatedAmount ?? (src as any).totalGiven ?? 0;
 
-        <button
-          onClick={() => setSubTab('GIVEN')}
-          className={`pb-3 px-1 border-b-2 flex items-center space-x-2 transition-colors ${
-            subTab === 'GIVEN'
-              ? 'border-emerald-600 text-emerald-800'
-              : 'border-transparent text-stone-500 hover:text-stone-800'
-          }`}
-        >
-          <ArrowUpRight className="w-4 h-4 text-rose-600" />
-          <span>Money Given to Level 4 ({moneyGivenList.length})</span>
-        </button>
-      </div>
-
-      {/* Tab 1: Source Balances */}
-      {subTab === 'SOURCES' && (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {sourceBalances.map((src) => (
-              <div key={src.id} className="bg-white rounded-xl p-5 border border-stone-200 shadow-xs space-y-4">
+            return (
+              <div key={src.id} className="p-4 bg-[#F7F5F0] border border-[#E7E2D8] rounded-xl space-y-3 shadow-2xs">
                 <div className="flex items-start justify-between">
                   <div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-stone-100 px-2 py-0.5 rounded">
-                      Level 2 Origin: {src.sourceL2Id}
-                    </span>
-                    <h3 className="font-bold text-base text-stone-900 mt-1">{src.fundName}</h3>
-                    <p className="text-xs text-stone-600">{src.sourceL2Name}</p>
+                    <h3 className="font-bold text-xs text-[#171717]">
+                      {src.fundName || src.sourceL2Name || (src as any).sourceName || 'Level 2 Source'}
+                    </h3>
+                    <p className="text-[11px] text-[#5F6368] font-medium">{src.purpose || 'General Ministry Purpose'}</p>
                   </div>
                   <div className="text-right">
-                    <span className="text-[10px] uppercase font-bold text-stone-500 block">Available</span>
-                    <span className="text-xl font-black font-mono text-emerald-700">
-                      ₹{src.availableAmount.toLocaleString('en-IN')}
-                    </span>
+                    <span className="text-[9px] uppercase font-bold text-[#5F6368]">Available</span>
+                    <div className="text-base font-extrabold text-[#009E68] font-mono tabular-nums">
+                      ₹{avail.toLocaleString('en-IN')}
+                    </div>
                   </div>
                 </div>
 
-                <div className="bg-stone-50 p-3 rounded-lg border border-stone-200 text-xs text-stone-700 space-y-1">
-                  <span className="font-semibold block text-stone-500 text-[10px] uppercase">Designated Purpose:</span>
-                  <p className="leading-relaxed">{src.purpose}</p>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2 text-xs border-t border-stone-100 pt-3">
+                {/* Received / Given breakdown */}
+                <div className="grid grid-cols-2 gap-2 text-[11px] bg-white p-2.5 rounded-lg border border-[#E7E2D8]">
                   <div>
-                    <span className="text-stone-400 text-[10px] uppercase font-semibold block">Total Received</span>
-                    <span className="font-mono font-bold text-stone-800">₹{src.receivedAmount.toLocaleString('en-IN')}</span>
+                    <span className="text-[#5F6368] text-[10px]">Received:</span>
+                    <strong className="block text-[#2563EB] font-mono tabular-nums">₹{rec.toLocaleString('en-IN')}</strong>
                   </div>
                   <div>
-                    <span className="text-stone-400 text-[10px] uppercase font-semibold block">Disbursed to L4</span>
-                    <span className="font-mono font-bold text-stone-800">₹{src.allocatedAmount.toLocaleString('en-IN')}</span>
+                    <span className="text-[#5F6368] text-[10px]">Given:</span>
+                    <strong className="block text-[#F59E0B] font-mono tabular-nums">₹{given.toLocaleString('en-IN')}</strong>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-[11px] text-stone-500 pt-2 border-t border-stone-100">
-                  <span>Last Received: {new Date(src.lastReceivedDate).toLocaleDateString('en-IN')}</span>
-                  <span className="text-emerald-700 font-semibold">Active Balance</span>
+                <div className="flex items-center justify-end pt-1">
+                  <button
+                    onClick={() => setSelectedSourceDrawer(src)}
+                    className="px-2.5 py-1 bg-white hover:bg-[#F7F5F0] text-[#171717] border border-[#E7E2D8] rounded-md text-[10px] font-semibold transition-colors cursor-pointer inline-flex items-center space-x-1"
+                  >
+                    <Eye className="w-3 h-3 text-[#5F6368]" />
+                    <span>View Details</span>
+                  </button>
                 </div>
               </div>
-            ))}
+            );
+          })}
+        </div>
+      </div>
+
+      {/* SECTION: RECENT TRANSACTIONS */}
+      <div className="bg-white border border-[#E7E2D8] rounded-xl p-4 shadow-2xs space-y-3">
+        <h2 className="text-xs font-bold text-[#171717] uppercase tracking-wider flex items-center space-x-1.5">
+          <ArrowLeftRight className="w-4 h-4 text-[#2563EB]" />
+          <span>Transactions</span>
+        </h2>
+
+        <div className="divide-y divide-[#EBE6DD]">
+          {(moneyReceivedList || []).map((m) => (
+            <div key={`rec-${m.id}`} className="py-2.5 flex items-center justify-between text-xs gap-3">
+              <div className="flex items-center space-x-2.5 min-w-0">
+                <div className="w-7 h-7 rounded-lg bg-[#2563EB]/10 text-[#2563EB] flex items-center justify-center flex-shrink-0">
+                  <ArrowDownLeft className="w-3.5 h-3.5" />
+                </div>
+                <div className="min-w-0">
+                  <div className="font-bold text-[#171717] truncate">
+                    Received from {m.fromL2Name || 'Level 2 Director'}
+                  </div>
+                  <div className="text-[10px] text-[#5F6368] truncate">{m.purpose || m.remarks || 'Direct Disbursal'} &bull; {m.date || m.timestamp}</div>
+                </div>
+              </div>
+              <div className="text-right flex-shrink-0 font-mono tabular-nums">
+                <div className="font-extrabold text-[#009E68]">+₹{(m.amount || 0).toLocaleString('en-IN')}</div>
+                <button
+                  onClick={() => onOpenTrace(m, 'MONEY_RECEIVED')}
+                  className="text-[9px] text-[#2563EB] hover:underline font-semibold cursor-pointer"
+                >
+                  Trace →
+                </button>
+              </div>
+            </div>
+          ))}
+
+          {(moneyGivenList || []).map((m) => (
+            <div key={`giv-${m.id}`} className="py-2.5 flex items-center justify-between text-xs gap-3">
+              <div className="flex items-center space-x-2.5 min-w-0">
+                <div className="w-7 h-7 rounded-lg bg-[#F59E0B]/10 text-[#F59E0B] flex items-center justify-center flex-shrink-0">
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </div>
+                <div className="min-w-0">
+                  <div className="font-bold text-[#171717] truncate">
+                    Disbursed to {m.recipientL4Name || 'Field Worker'}
+                  </div>
+                  <div className="text-[10px] text-[#5F6368] truncate">{m.purpose || m.remarks || 'Field Allocation'} &bull; {m.date || m.timestamp}</div>
+                </div>
+              </div>
+              <div className="text-right flex-shrink-0 font-mono tabular-nums">
+                <div className="font-extrabold text-[#171717]">-₹{(m.amount || 0).toLocaleString('en-IN')}</div>
+                <button
+                  onClick={() => onOpenTrace(m, 'MONEY_GIVEN')}
+                  className="text-[9px] text-[#2563EB] hover:underline font-semibold cursor-pointer"
+                >
+                  Trace →
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* SOURCE DETAIL DRAWER */}
+      <DetailDrawer
+        isOpen={!!selectedSourceDrawer}
+        onClose={() => setSelectedSourceDrawer(null)}
+        title={selectedSourceDrawer?.fundName || selectedSourceDrawer?.sourceL2Name || (selectedSourceDrawer as any)?.sourceName || 'Source Details'}
+        subtitle={`Purpose: ${selectedSourceDrawer?.purpose || 'Ministry Operations'}`}
+      >
+        {selectedSourceDrawer && (
+          <div className="space-y-5 text-xs text-[#171717]">
+            <div className="p-4 bg-[#D4AF37]/10 border border-[#D4AF37]/30 rounded-xl space-y-2">
+              <div className="text-[10px] font-bold text-[#24152F] uppercase">Balance Summary</div>
+              <div className="grid grid-cols-3 gap-2 text-center pt-1 font-mono tabular-nums">
+                <div>
+                  <div className="text-[9px] text-[#5F6368] uppercase font-bold">Received</div>
+                  <div className="text-xs font-bold text-[#2563EB] mt-0.5">
+                    ₹{(selectedSourceDrawer.receivedAmount ?? (selectedSourceDrawer as any).totalReceived ?? 0).toLocaleString('en-IN')}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-[9px] text-[#5F6368] uppercase font-bold">Given</div>
+                  <div className="text-xs font-bold text-[#F59E0B] mt-0.5">
+                    ₹{(selectedSourceDrawer.allocatedAmount ?? (selectedSourceDrawer as any).totalGiven ?? 0).toLocaleString('en-IN')}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-[9px] text-[#5F6368] uppercase font-bold">Available</div>
+                  <div className="text-xs font-bold text-[#009E68] mt-0.5">
+                    ₹{(selectedSourceDrawer.availableAmount ?? 0).toLocaleString('en-IN')}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-1.5 p-3 bg-[#F7F5F0] border border-[#E7E2D8] rounded-xl">
+              <div className="font-bold text-[#171717] text-xs">Source Info</div>
+              <div><span className="font-semibold">Provider:</span> {selectedSourceDrawer.sourceL2Name || selectedSourceDrawer.fundName}</div>
+              <div><span className="font-semibold">Purpose:</span> {selectedSourceDrawer.purpose || 'General Ministry'}</div>
+              <div><span className="font-semibold">ID:</span> <code className="font-mono text-[11px] text-[#5F6368]">{selectedSourceDrawer.id}</code></div>
+            </div>
+
+            <button
+              onClick={() => {
+                setSelectedSourceDrawer(null);
+                onOpenGiveMoney();
+              }}
+              className="w-full py-2.5 bg-[#009E68] hover:bg-[#009E68]/90 text-white font-bold text-xs rounded-xl shadow-xs transition-colors cursor-pointer"
+            >
+              Give Money from this Source
+            </button>
           </div>
-        </div>
-      )}
+        )}
+      </DetailDrawer>
 
-      {/* Tab 2: Money Received from Level 2 */}
-      {subTab === 'RECEIVED' && (
-        <div className="bg-white rounded-xl border border-stone-200 shadow-xs overflow-hidden">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-stone-50 border-b border-stone-200 text-stone-500 font-bold uppercase text-[10px] tracking-wider">
-              <tr>
-                <th className="p-3.5">Received Date</th>
-                <th className="p-3.5">Level 2 Giver</th>
-                <th className="p-3.5">Fund Source</th>
-                <th className="p-3.5">Purpose</th>
-                <th className="p-3.5">Transaction Ref</th>
-                <th className="p-3.5 text-right">Amount</th>
-                <th className="p-3.5 text-right">Trace</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-stone-100">
-              {moneyReceivedList.map((rec) => (
-                <tr key={rec.id} className="hover:bg-stone-50/70 transition-colors">
-                  <td className="p-3.5 font-mono text-stone-700">
-                    {new Date(rec.receivedAt).toLocaleDateString('en-IN')}
-                  </td>
-                  <td className="p-3.5">
-                    <div className="font-bold text-stone-900">{rec.fromL2Name}</div>
-                    <div className="text-[10px] text-stone-500 font-mono">{rec.fromL2Id}</div>
-                  </td>
-                  <td className="p-3.5 font-semibold text-stone-800">{rec.fundSource}</td>
-                  <td className="p-3.5 text-stone-600 max-w-xs">{rec.purpose}</td>
-                  <td className="p-3.5 font-mono text-[11px] text-slate-500">{rec.transactionRef}</td>
-                  <td className="p-3.5 text-right font-mono font-black text-emerald-700 text-sm">
-                    +₹{rec.amount.toLocaleString('en-IN')}
-                  </td>
-                  <td className="p-3.5 text-right">
-                    <button
-                      onClick={() => onOpenTrace(rec, 'MONEY_RECEIVED')}
-                      className="p-1.5 text-stone-400 hover:text-stone-700 rounded hover:bg-stone-200"
-                      title="Full Trace"
-                    >
-                      <Search className="w-4 h-4" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {/* Tab 3: Money Given to Level 4 */}
-      {subTab === 'GIVEN' && (
-        <div className="bg-white rounded-xl border border-stone-200 shadow-xs overflow-hidden">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-stone-50 border-b border-stone-200 text-stone-500 font-bold uppercase text-[10px] tracking-wider">
-              <tr>
-                <th className="p-3.5">Given Date</th>
-                <th className="p-3.5">Level 4 Recipient</th>
-                <th className="p-3.5">Level 2 Source Origin</th>
-                <th className="p-3.5">Category / Event</th>
-                <th className="p-3.5">Purpose / Reference</th>
-                <th className="p-3.5 text-right">Amount</th>
-                <th className="p-3.5 text-right">Trace</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-stone-100">
-              {moneyGivenList.map((giv) => (
-                <tr key={giv.id} className="hover:bg-stone-50/70 transition-colors">
-                  <td className="p-3.5 font-mono text-stone-700">
-                    {new Date(giv.givenAt).toLocaleDateString('en-IN')}
-                  </td>
-                  <td className="p-3.5">
-                    <div className="font-bold text-stone-900">{giv.receiverL4Name}</div>
-                    <div className="text-[10px] text-stone-500">Recipient L4</div>
-                  </td>
-                  <td className="p-3.5 font-semibold text-slate-700">{giv.sourceL2Name}</td>
-                  <td className="p-3.5">
-                    <div className="font-semibold text-stone-800">{giv.categoryName}</div>
-                    <div className="text-[10px] text-stone-500">{giv.eventName || 'No Event'}</div>
-                  </td>
-                  <td className="p-3.5 text-stone-600 max-w-xs">{giv.purpose}</td>
-                  <td className="p-3.5 text-right font-mono font-black text-stone-900 text-sm">
-                    ₹{giv.amount.toLocaleString('en-IN')}
-                  </td>
-                  <td className="p-3.5 text-right">
-                    <button
-                      onClick={() => onOpenTrace(giv, 'MONEY_GIVEN')}
-                      className="p-1.5 text-stone-400 hover:text-stone-700 rounded hover:bg-stone-200"
-                      title="Full Trace"
-                    >
-                      <Search className="w-4 h-4" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
     </div>
   );
 };
