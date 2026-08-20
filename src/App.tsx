@@ -119,6 +119,18 @@ export default function App() {
     return raw ? JSON.parse(raw) : null;
   });
 
+  // Level 4 State
+  const [l4User, setL4User] = useState<User | null>(() => {
+    const raw = localStorage.getItem('church_l4_session');
+    if (!raw) return null;
+    try {
+      const parsed = JSON.parse(raw);
+      return parsed.id ? parsed : null;
+    } catch {
+      return null;
+    }
+  });
+
   // Level 2 State
   const [l2InitialData, setL2InitialData] = useState<any>(null);
 
@@ -249,14 +261,26 @@ export default function App() {
   // ==========================================
   // LEVEL 4 AUTH & HANDLERS
   // ==========================================
-  const handleL4LoginSuccess = () => {
-    localStorage.setItem('church_l4_session', JSON.stringify({ loggedIn: true }));
+  const handleL4LoginSuccess = (user?: User) => {
+    const userToStore = user || {
+      id: 'usr-l4-worker1',
+      name: 'Pastor John Miller',
+      role: 'LEVEL_4',
+      designation: 'Parish Field Worker',
+      email: 'pastor.john@gracechurch.org',
+      phone: '+91 98401 22334',
+      assignedArea: 'Grace Parish & Project Outreach',
+      createdAt: '2026-01-01',
+    };
+    localStorage.setItem('church_l4_session', JSON.stringify(userToStore));
+    setL4User(userToStore);
     setCurrentRoute('LEVEL_4_APP');
     window.history.pushState({}, '', '/level-4/dashboard');
   };
 
   const handleL4Logout = () => {
     localStorage.removeItem('church_l4_session');
+    setL4User(null);
     setCurrentRoute('LEVEL_4_LOGIN');
     window.history.pushState({}, '', '/level-4/login');
   };
@@ -436,7 +460,7 @@ export default function App() {
     } else if (user.role === 'LEVEL_3') {
       handleL3LoginSuccess(user, state);
     } else {
-      handleL4LoginSuccess();
+      handleL4LoginSuccess(user);
     }
   };
 
@@ -531,7 +555,7 @@ export default function App() {
   if (currentRoute === 'LEVEL_4_APP') {
     return (
       <ErrorBoundary fallbackTitle="Level 4 Workspace Exception">
-        <Level4App onLogout={handleL4Logout} />
+        <Level4App initialUser={l4User || undefined} onLogout={handleL4Logout} />
       </ErrorBoundary>
     );
   }

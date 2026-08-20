@@ -1,5 +1,11 @@
 import express from "express";
 import path from "path";
+import dotenv from "dotenv";
+
+// Load local environment variables
+dotenv.config({ path: ".env.local" });
+dotenv.config();
+
 import { createServer as createViteServer } from "vite";
 import {
   User,
@@ -3081,8 +3087,9 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Church Financial Management Server running at http://localhost:${PORT}`);
+  const HOST = process.env.HOST || "127.0.0.1";
+  app.listen(PORT, HOST, () => {
+    console.log(`Church Financial Management Server running at http://${HOST}:${PORT}`);
   });
 }
 
